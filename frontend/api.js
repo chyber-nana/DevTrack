@@ -6,7 +6,10 @@ export async function apiRequest(
   endpoint,
   options = {}
 ) {
-  const token = localStorage.getItem("devtrack_token");
+  const token =
+    localStorage.getItem(
+      "devtrack_token"
+    );
 
   const headers = {
     "Content-Type": "application/json",
@@ -14,7 +17,8 @@ export async function apiRequest(
   };
 
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers.Authorization =
+      `Bearer ${token}`;
   }
 
   const response = await fetch(
@@ -25,22 +29,44 @@ export async function apiRequest(
     }
   );
 
-  const data = await response.json();
+  const contentType =
+    response.headers.get(
+      "content-type"
+    ) || "";
 
-  if (!response.ok) {
-  if (response.status === 401) {
-    localStorage.removeItem("devtrack_token");
+  let data;
 
-    window.location.reload();
+  if (contentType.includes(
+    "application/json"
+  )) {
+    data = await response.json();
+  } else {
+    const text =
+      await response.text();
 
-    throw new Error("Your session has expired");
+    throw new Error(
+      `Server returned ${response.status}`
+    );
   }
 
-  throw new Error(
-    data.message || "Something went wrong"
-  );
-}
+  if (!response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem(
+        "devtrack_token"
+      );
+
+      window.location.reload();
+
+      throw new Error(
+        "Your session has expired"
+      );
+    }
+
+    throw new Error(
+      data.message ||
+      "Something went wrong"
+    );
+  }
 
   return data;
 }
-

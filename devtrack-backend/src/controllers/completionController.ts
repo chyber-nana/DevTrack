@@ -4,6 +4,7 @@ import {
   completeStudyDay,
   uncompleteStudyDay,
   getUserCompletions,
+  deleteAllUserCompletions,
 } from "../services/completionService.js";
 
 export async function completeDay(
@@ -126,6 +127,34 @@ export async function getCompletions(
     res.status(500).json({
       success: false,
       message: "Failed to fetch completions",
+    });
+  }
+}
+
+export async function resetCompletions(
+  req: AuthenticatedRequest,
+  res: Response
+) {
+  try {
+    const userId = req.user!.userId;
+
+    const deleted =
+      await deleteAllUserCompletions(userId);
+
+    res.json({
+      success: true,
+      message: "Progress reset successfully",
+      deleted,
+    });
+  } catch (error) {
+    console.error(
+      "Failed to reset progress:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to reset progress",
     });
   }
 }

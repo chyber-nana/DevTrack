@@ -77,3 +77,22 @@ export async function getUserCompletions(userId: number) {
 
   return results;
 }
+
+export async function deleteAllUserCompletions(
+  userId: number
+) {
+  const completions =
+    await db.orm.public.Completion
+      .where({ userId })
+      .all();
+
+  for (const completion of completions) {
+    await db.orm.public.Completion
+      .where({
+        id: completion.id,
+      })
+      .delete();
+  }
+
+  return completions.length;
+}

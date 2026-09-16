@@ -39,98 +39,98 @@
         cursor: pointer;
       }
       .auth-screen {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: var(--bg);
-}
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: var(--bg);
+      }
 
-.auth-screen.hidden {
-  display: none;
-}
+      .auth-screen.hidden {
+        display: none;
+      }
 
-.auth-card {
-  width: min(420px, 100%);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 20px 60px #0006;
-}
+      .auth-card {
+        width: min(420px, 100%);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 20px 60px #0006;
+      }
 
-.auth-brand {
-  padding: 0 0 24px;
-  text-align: center;
-}
+      .auth-brand {
+        padding: 0 0 24px;
+        text-align: center;
+      }
 
-.auth-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  padding: 5px;
-  margin-bottom: 22px;
-  background: var(--panel2);
-  border-radius: 10px;
-}
+      .auth-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        padding: 5px;
+        margin-bottom: 22px;
+        background: var(--panel2);
+        border-radius: 10px;
+      }
 
-.auth-tab {
-  border: 0;
-  background: transparent;
-  padding: 10px;
-  border-radius: 8px;
-  color: var(--muted);
-}
+      .auth-tab {
+        border: 0;
+        background: transparent;
+        padding: 10px;
+        border-radius: 8px;
+        color: var(--muted);
+      }
 
-.auth-tab.active {
-  background: var(--panel);
-  color: var(--text);
-}
+      .auth-tab.active {
+        background: var(--panel);
+        color: var(--text);
+      }
 
-.auth-field {
-  margin-bottom: 15px;
-}
+      .auth-field {
+        margin-bottom: 15px;
+      }
 
-.auth-field.hidden {
-  display: none;
-}
+      .auth-field.hidden {
+        display: none;
+      }
 
-.auth-field label {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 13px;
-  color: var(--muted);
-}
+      .auth-field label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 13px;
+        color: var(--muted);
+      }
 
-.auth-field input {
-  width: 100%;
-  padding: 12px 13px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel2);
-  color: var(--text);
-  outline: none;
-}
+      .auth-field input {
+        width: 100%;
+        padding: 12px 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel2);
+        color: var(--text);
+        outline: none;
+      }
 
-.auth-field input:focus {
-  border-color: var(--accent);
-}
+      .auth-field input:focus {
+        border-color: var(--accent);
+      }
 
-.auth-submit {
-  width: 100%;
-  margin-top: 5px;
-}
+      .auth-submit {
+        width: 100%;
+        margin-top: 5px;
+      }
 
-.auth-message {
-  min-height: 20px;
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-  text-align: center;
-}
+      .auth-message {
+        min-height: 20px;
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
       .app {
         display: flex;
         min-height: 100vh;
@@ -268,51 +268,51 @@
         font-size: 12px;
       }
       .loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(8, 11, 18, 0.78);
-  backdrop-filter: blur(4px);
-}
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(8, 11, 18, 0.78);
+        backdrop-filter: blur(4px);
+      }
 
-.loading-overlay.hidden {
-  display: none;
-}
+      .loading-overlay.hidden {
+        display: none;
+      }
 
-.loading-card {
-  min-width: 230px;
-  padding: 24px;
-  text-align: center;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 20px 60px #0006;
-}
+      .loading-card {
+        min-width: 230px;
+        padding: 24px;
+        text-align: center;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px #0006;
+      }
 
-.spinner {
-  width: 32px;
-  height: 32px;
-  margin: 0 auto 14px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: devtrack-spin 0.8s linear infinite;
-}
+      .spinner {
+        width: 32px;
+        height: 32px;
+        margin: 0 auto 14px;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: devtrack-spin 0.8s linear infinite;
+      }
 
-.loading-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-}
+      .loading-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
 
-@keyframes devtrack-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+      @keyframes devtrack-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
       .bar {
         height: 9px;
         background: #202938;
@@ -406,21 +406,154 @@
         margin-top: 4px;
       }
       .logout-btn {
-  display: block;
-  width: 100%;
-  margin-top: 18px;
-  padding: 12px 13px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--muted);
-  text-align: left;
+        display: block;
+        width: 100%;
+        margin-top: 18px;
+        padding: 12px 13px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--muted);
+        text-align: left;
+      }
+
+      .roadmap-filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 18px 0;
+      }
+
+      .roadmap-filter {
+        border: 1px solid var(--border);
+        background: var(--panel2);
+        color: var(--muted);
+        padding: 9px 13px;
+        border-radius: 9px;
+      }
+
+      .roadmap-filter:hover,
+      .roadmap-filter.active {
+        background: var(--accent);
+        color: #07110f;
+        border-color: var(--accent);
+      }
+
+      .roadmap-day {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        margin-top: 10px;
+      }
+
+      .roadmap-day.today {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px #55d6be22;
+      }
+
+      .roadmap-day.completed {
+        opacity: 0.68;
+      }
+
+      .roadmap-day-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .roadmap-day-info {
+        flex: 1;
+      }
+
+      .roadmap-day-date {
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+
+      .roadmap-day-meta {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .roadmap-day-title {
+        margin-top: 10px;
+        font-weight: 700;
+      }
+
+      .roadmap-day-details {
+        margin-top: 8px;
+        color: #b8c1d0;
+        line-height: 1.5;
+        font-size: 13px;
+      }
+
+      .roadmap-day-action {
+        border: 1px solid var(--border);
+        background: var(--panel2);
+        padding: 9px 12px;
+        border-radius: 9px;
+        white-space: nowrap;
+      }
+
+      .roadmap-day-action.complete {
+        background: var(--accent);
+        color: #07110f;
+        border-color: var(--accent);
+        font-weight: 800;
+      }
+
+      .roadmap-day-action:hover {
+        opacity: 0.9;
+      }
+
+      .roadmap-week-heading {
+        margin: 24px 0 8px;
+        font-size: 16px;
+      }
+
+      .roadmap-week-heading:first-child {
+        margin-top: 8px;
+      }
+
+      .roadmap-status {
+        display: inline-block;
+        margin-left: 7px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 800;
+        vertical-align: middle;
+      }
+
+      .catchup-highlight {
+  border-color: #ffb27a;
 }
 
-.logout-btn:hover {
-  background: var(--panel2);
-  color: var(--text);
+#catchUpCard {
+  border-color: #5b3d2c;
 }
+
+      .roadmap-status.today {
+        background: #18352f;
+        color: var(--accent);
+      }
+
+      .roadmap-status.completed {
+        background: #23302d;
+        color: var(--accent);
+      }
+
+      .roadmap-status.pending {
+        background: var(--panel2);
+        color: var(--muted);
+      }
+
+      .logout-btn:hover {
+        background: var(--panel2);
+        color: var(--text);
+      }
       .check {
         width: 34px;
         height: 34px;
@@ -445,6 +578,16 @@
       }
       .week h4 {
         margin: 0 0 6px;
+      }
+
+      .roadmap-status.missed {
+        background: #33261f;
+        color: #ffb27a;
+      }
+
+      .roadmap-status.upcoming {
+        background: var(--panel2);
+        color: var(--muted);
       }
       .week p {
         margin: 4px 0;
@@ -510,49 +653,59 @@
   </head>
   <body>
     <div id="loadingOverlay" class="loading-overlay hidden">
-  <div class="loading-card">
-    <div class="spinner"></div>
-    <p id="loadingText">Connecting to DevTrack...</p>
-  </div>
-</div>
-    <div id="authScreen" class="auth-screen">
-  <div class="auth-card">
-    <div class="brand auth-brand">Dev<span>Track</span></div>
-
-    <div class="auth-tabs">
-      <button id="loginTab" class="auth-tab active">Login</button>
-      <button id="registerTab" class="auth-tab">Register</button>
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <p id="loadingText">Connecting to DevTrack...</p>
+      </div>
     </div>
+    <div id="authScreen" class="auth-screen">
+      <div class="auth-card">
+        <div class="brand auth-brand">Dev<span>Track</span></div>
 
-    <form id="authForm">
-      <div id="nameField" class="auth-field hidden">
-        <label for="authName">Name</label>
-        <input id="authName" type="text" placeholder="Your name">
+        <div class="auth-tabs">
+          <button id="loginTab" class="auth-tab active">Login</button>
+          <button id="registerTab" class="auth-tab">Register</button>
+        </div>
+
+        <form id="authForm">
+          <div id="nameField" class="auth-field hidden">
+            <label for="authName">Name</label>
+            <input id="authName" type="text" placeholder="Your name" />
+          </div>
+
+          <div class="auth-field">
+            <label for="authEmail">Email</label>
+            <input
+              id="authEmail"
+              type="email"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+
+          <div id="usernameField" class="auth-field hidden">
+            <label for="authUsername">Username</label>
+            <input id="authUsername" type="text" placeholder="yourusername" />
+          </div>
+
+          <div class="auth-field">
+            <label for="authPassword">Password</label>
+            <input
+              id="authPassword"
+              type="password"
+              required
+              placeholder="••••••••"
+            />
+          </div>
+
+          <button class="primary auth-submit" type="submit" id="authSubmit">
+            Login
+          </button>
+
+          <p id="authMessage" class="auth-message"></p>
+        </form>
       </div>
-
-      <div class="auth-field">
-        <label for="authEmail">Email</label>
-        <input id="authEmail" type="email" required placeholder="you@example.com">
-      </div>
-
-      <div id="usernameField" class="auth-field hidden">
-        <label for="authUsername">Username</label>
-        <input id="authUsername" type="text" placeholder="yourusername">
-      </div>
-
-      <div class="auth-field">
-        <label for="authPassword">Password</label>
-        <input id="authPassword" type="password" required placeholder="••••••••">
-      </div>
-
-      <button class="primary auth-submit" type="submit" id="authSubmit">
-        Login
-      </button>
-
-      <p id="authMessage" class="auth-message"></p>
-    </form>
-  </div>
-</div>
+    </div>
     <div class="app">
       <aside class="sidebar">
         <div class="brand">Dev<span>Track</span></div>
@@ -562,11 +715,8 @@
           <button data-view="roadmap">▦ Roadmap</button>
           <button data-view="progress">◔ Progress</button>
           <button data-view="projects">◆ Projects</button>
-          
         </nav>
-        <button id="logoutBtn" class="logout-btn">
-  ↪ Logout
-</button>
+        <button id="logoutBtn" class="logout-btn">↪ Logout</button>
       </aside>
       <main class="main">
         <div class="top">
@@ -608,13 +758,45 @@
               </div>
             </div>
           </div>
+          <div
+  class="section card"
+  id="catchUpCard"
+  style="display:none"
+>
+  <div class="eyebrow">Catch up</div>
+
+  <h3 id="catchUpTitle">
+    Yesterday's lesson
+  </h3>
+
+  <p
+    id="catchUpInfo"
+    class="settings"
+  ></p>
+
+  <div class="actions">
+    <button
+      class="primary"
+      id="catchUpComplete"
+    >
+      Mark complete
+    </button>
+
+    <button
+      class="secondary"
+      id="catchUpRoadmap"
+    >
+      Open roadmap
+    </button>
+  </div>
+</div>
           <div class="section card">
             <h3>Roadmap at a glance</h3>
             <div class="roadmap" id="phaseCards"></div>
           </div>
           <div class="section card project">
             <h3>Portfolio projects</h3>
-     <div class="project" id="dashboardProjects"></div>
+            <div class="project" id="dashboardProjects"></div>
           </div>
         </section>
 
@@ -635,9 +817,31 @@
 
         <section id="roadmap" class="view">
           <div class="card">
-            <div class="eyebrow">All weeks</div>
+            <div class="eyebrow">153 days · day by day</div>
             <h2>Roadmap</h2>
-            <div class="roadmapFull" id="weeks"></div>
+
+            <p class="settings">
+              Work through the roadmap one day at a time. You can complete
+              today's lesson, go back to a previous day, or work ahead.
+            </p>
+
+            <div class="roadmap-filters">
+              <button class="roadmap-filter active" data-filter="all">
+                All
+              </button>
+
+              <button class="roadmap-filter" data-filter="today">Today</button>
+
+              <button class="roadmap-filter" data-filter="completed">
+                Completed
+              </button>
+
+              <button class="roadmap-filter" data-filter="pending">
+                Pending
+              </button>
+            </div>
+
+            <div id="weeks"></div>
           </div>
         </section>
 
@@ -646,6 +850,12 @@
             <div class="eyebrow">Your progress</div>
             <h2>Keep moving.</h2>
             <div id="progressContent"></div>
+            <button
+  id="resetProgressBtn"
+  class="reset"
+>
+  Reset my progress
+</button>
           </div>
         </section>
 
@@ -668,17 +878,14 @@
       let DAYS = [];
       let completions = [];
       function formatDate(value, options = {}) {
-  const date = new Date(value);
+        const date = new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
-    return "Invalid Date";
-  }
+        if (Number.isNaN(date.getTime())) {
+          return "Invalid Date";
+        }
 
-  return date.toLocaleDateString(
-    undefined,
-    options
-  );
-}
+        return date.toLocaleDateString(undefined, options);
+      }
       async function loadCompletions() {
         try {
           const response = await apiRequest("/completions");
@@ -696,25 +903,51 @@
         );
       }
 
-      async function toggleCompletion(studyDayId) {
-        try {
-          if (isCompleted(studyDayId)) {
-            await apiRequest(`/completions/${studyDayId}`, {
-              method: "DELETE",
-            });
-          } else {
-            await apiRequest(`/completions/${studyDayId}`, {
-              method: "POST",
-            });
-          }
+      async function toggleCompletion(
+  studyDayId
+) {
+  try {
+    showLoading(
+      isCompleted(studyDayId)
+        ? "Updating completion..."
+        : "Saving completion..."
+    );
 
-          await loadCompletions();
-
-          render();
-        } catch (error) {
-          console.error("❌ Failed to update completion:", error);
+    if (isCompleted(studyDayId)) {
+      await apiRequest(
+        `/completions/${studyDayId}`,
+        {
+          method: "DELETE",
         }
-      }
+      );
+    } else {
+      await apiRequest(
+        `/completions/${studyDayId}`,
+        {
+          method: "POST",
+        }
+      );
+    }
+
+    await loadCompletions();
+    await loadProgress();
+
+    render();
+
+  } catch (error) {
+    console.error(
+      "❌ Failed to update completion:",
+      error
+    );
+
+    alert(
+      error.message ||
+      "Failed to update completion"
+    );
+  } finally {
+    hideLoading();
+  }
+}
       async function loadStudyDays() {
         try {
           const response = await apiRequest("/study-days");
@@ -748,116 +981,89 @@
       }
       let projects = [];
 
-async function loadProjects() {
-  try {
-    const response = await apiRequest("/projects");
-    projects = response.data;
+      async function loadProjects() {
+        try {
+          const response = await apiRequest("/projects");
+          projects = response.data;
 
-    console.log(
-      `✅ Loaded ${projects.length} projects from API`
-    );
-  } catch (error) {
-    console.error(
-      "❌ Failed to load projects:",
-      error
-    );
-  }
-}
-
-function logout() {
-  localStorage.removeItem("devtrack_token");
-
-  completions = [];
-  projects = [];
-  DAYS = [];
-
-  document
-    .getElementById("authScreen")
-    .classList.remove("hidden");
-
-  setAuthMode("login");
-
-  document
-    .getElementById("authForm")
-    .reset();
-
-  console.log("✅ Logged out");
-}
-
-document
-  .getElementById("logoutBtn")
-  .addEventListener("click", logout);
-function showLoading(message = "Loading DevTrack...") {
-  const overlay =
-    document.getElementById("loadingOverlay");
-
-  const text =
-    document.getElementById("loadingText");
-
-  text.textContent = message;
-  overlay.classList.remove("hidden");
-}
-
-function hideLoading() {
-  document
-    .getElementById("loadingOverlay")
-    .classList.add("hidden");
-}
-async function updateProjectProgress(
-  projectId,
-  progress
-) {
-  try {
-    showLoading("Saving project progress...");
-
-    await apiRequest(
-      `/projects/${projectId}/progress`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ progress }),
+          console.log(`✅ Loaded ${projects.length} projects from API`);
+        } catch (error) {
+          console.error("❌ Failed to load projects:", error);
+        }
       }
-    );
 
-    await loadProjects();
-    await loadProgress();
+      function logout() {
+        localStorage.removeItem("devtrack_token");
 
-    renderProjects();
-    render();
+        completions = [];
+        projects = [];
+        DAYS = [];
 
-    console.log(
-      `✅ Project ${projectId} progress updated to ${progress}%`
-    );
-  } catch (error) {
-    console.error(
-      "❌ Failed to update project progress:",
-      error
-    );
-  } finally {
-    hideLoading();
-  }
-}
+        document.getElementById("authScreen").classList.remove("hidden");
 
-function renderProjects() {
-  const dashboardProjects =
-    document.getElementById("dashboardProjects");
+        setAuthMode("login");
 
-  const projectsList =
-    document.getElementById("projectsList");
+        document.getElementById("authForm").reset();
 
-  if (!projects.length) {
-    dashboardProjects.innerHTML =
-      "<p class='settings'>No projects found.</p>";
+        console.log("✅ Logged out");
+      }
 
-    projectsList.innerHTML =
-      "<p class='settings'>No projects found.</p>";
+      document.getElementById("logoutBtn").addEventListener("click", logout);
+      function showLoading(message = "Loading DevTrack...") {
+        const overlay = document.getElementById("loadingOverlay");
 
-    return;
-  }
+        const text = document.getElementById("loadingText");
 
-  // Dashboard project cards
-  dashboardProjects.innerHTML = projects
-    .map(
-      (project) => `
+        text.textContent = message;
+        overlay.classList.remove("hidden");
+      }
+
+      function hideLoading() {
+        document.getElementById("loadingOverlay").classList.add("hidden");
+      }
+      async function updateProjectProgress(projectId, progress) {
+        try {
+          showLoading("Saving project progress...");
+
+          await apiRequest(`/projects/${projectId}/progress`, {
+            method: "PATCH",
+            body: JSON.stringify({ progress }),
+          });
+
+          await loadProjects();
+          await loadProgress();
+
+          renderProjects();
+          render();
+
+          console.log(
+            `✅ Project ${projectId} progress updated to ${progress}%`,
+          );
+        } catch (error) {
+          console.error("❌ Failed to update project progress:", error);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function renderProjects() {
+        const dashboardProjects = document.getElementById("dashboardProjects");
+
+        const projectsList = document.getElementById("projectsList");
+
+        if (!projects.length) {
+          dashboardProjects.innerHTML =
+            "<p class='settings'>No projects found.</p>";
+
+          projectsList.innerHTML = "<p class='settings'>No projects found.</p>";
+
+          return;
+        }
+
+        // Dashboard project cards
+        dashboardProjects.innerHTML = projects
+          .map(
+            (project) => `
         <div class="projectrow">
           <div>
             <b>${project.name}</b>
@@ -865,14 +1071,14 @@ function renderProjects() {
           </div>
           <b>→</b>
         </div>
-      `
-    )
-    .join("");
+      `,
+          )
+          .join("");
 
-  // Full projects page
-  projectsList.innerHTML = projects
-    .map(
-      (project) => `
+        // Full projects page
+        projectsList.innerHTML = projects
+          .map(
+            (project) => `
         <div class="projectrow">
           <div style="flex:1">
             <b>${project.name}</b>
@@ -913,45 +1119,34 @@ function renderProjects() {
             </div>
           </div>
         </div>
-      `
-    )
-    .join("");
+      `,
+          )
+          .join("");
 
-  // Attach listeners AFTER the sliders exist
-  document
-    .querySelectorAll(".project-slider")
-    .forEach((slider) => {
-      const valueElement =
-        slider.parentElement.querySelector(
-          ".project-progress-value"
-        );
+        // Attach listeners AFTER the sliders exist
+        document.querySelectorAll(".project-slider").forEach((slider) => {
+          const valueElement = slider.parentElement.querySelector(
+            ".project-progress-value",
+          );
 
-      // Update number instantly while dragging
-      slider.addEventListener("input", () => {
-        valueElement.textContent =
-          `${slider.value}%`;
-      });
+          // Update number instantly while dragging
+          slider.addEventListener("input", () => {
+            valueElement.textContent = `${slider.value}%`;
+          });
 
-      // Save to PostgreSQL when released
-      slider.addEventListener("change", async () => {
-        const projectId = Number(
-          slider.dataset.projectId
-        );
+          // Save to PostgreSQL when released
+          slider.addEventListener("change", async () => {
+            const projectId = Number(slider.dataset.projectId);
 
-        const progress = Number(slider.value);
+            const progress = Number(slider.value);
 
-        await updateProjectProgress(
-          projectId,
-          progress
-        );
-      });
-    });
-}
-      function pct() {
-        return DAYS.length === 0
-          ? 0
-          : Math.round((completions.length / DAYS.length) * 100);
+            await updateProjectProgress(projectId, progress);
+          });
+        });
       }
+     function pct() {
+  return progressData.overallProgress || 0;
+}
       let progressData = {
         totalDays: 0,
         completedDays: 0,
@@ -964,17 +1159,152 @@ function renderProjects() {
         phaseProgress: [],
         projectProgress: [],
       };
+      function getYesterdayStudyDay() {
+  const yesterday = new Date();
+
+  yesterday.setDate(
+    yesterday.getDate() - 1
+  );
+
+  const yesterdayIso = iso(yesterday);
+
+  return DAYS.find(
+    (day) => iso(day.date) === yesterdayIso
+  );
+}
+
+function renderCatchUp() {
+  const card =
+    document.getElementById("catchUpCard");
+
+  const title =
+    document.getElementById("catchUpTitle");
+
+  const info =
+    document.getElementById("catchUpInfo");
+
+  const completeButton =
+    document.getElementById("catchUpComplete");
+
+  const roadmapButton =
+    document.getElementById("catchUpRoadmap");
+
+  const yesterday =
+    getYesterdayStudyDay();
+
+  if (
+    !yesterday ||
+    isCompleted(yesterday.id)
+  ) {
+    card.style.display = "none";
+    return;
+  }
+
+  card.style.display = "block";
+
+  title.textContent =
+    `Yesterday · ${formatDate(
+      yesterday.date,
+      {
+        weekday: "long",
+        month: "short",
+        day: "numeric",
+      }
+    )}`;
+
+  info.innerHTML = `
+    <strong>${yesterday.phase}</strong>
+    <br>
+    ${yesterday.focus.replace(
+      /^Learn: |^Practice: |^Build: /,
+      ""
+    )}
+    <br>
+    <span>
+      ${yesterday.hours} hours ·
+      ${yesterday.project}
+    </span>
+  `;
+
+  completeButton.onclick = async () => {
+    completeButton.disabled = true;
+
+    try {
+      await toggleCompletion(
+        yesterday.id
+      );
+    } finally {
+      completeButton.disabled = false;
+    }
+  };
+
+  roadmapButton.onclick = () => {
+    showView("roadmap");
+  };
+}
+
+async function resetProgress() {
+  const confirmed = window.confirm(
+    "Reset all your completed study days?\n\n" +
+    "This will not delete the roadmap or projects."
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    showLoading(
+      "Resetting your progress..."
+    );
+
+    await apiRequest(
+      "/completions/reset",
+      {
+        method: "DELETE",
+      }
+    );
+
+    completions = [];
+
+    await loadProgress();
+
+    render();
+
+    console.log(
+      "✅ Progress reset successfully"
+    );
+  } catch (error) {
+    console.error(
+      "❌ Failed to reset progress:",
+      error
+    );
+
+    alert(
+      error.message ||
+      "Failed to reset progress"
+    );
+  } finally {
+    hideLoading();
+  }
+}
+
+document
+  .getElementById("resetProgressBtn")
+  .addEventListener(
+    "click",
+    resetProgress
+  );
       function render() {
         const i = currentIndex();
         const t = DAYS[i];
         const done = isCompleted(t.id);
-        document.getElementById("todayDate").textContent =
-  formatDate(t.date, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
+        document.getElementById("todayDate").textContent = formatDate(t.date, {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
         document.getElementById("todayPhase").textContent = t.phase;
         document.getElementById("todayTitle").textContent = t.focus.replace(
           /^Learn: |^Practice: |^Build: /,
@@ -1021,9 +1351,10 @@ function renderProjects() {
 
           toggleCompletion(today.id);
         };
-        renderPhases();
-        renderWeeks();
-        renderProgress();
+renderCatchUp();
+renderPhases();
+renderWeeks(roadmapFilter);
+renderProgress();
       }
 
       function renderPhases() {
@@ -1078,66 +1409,212 @@ function renderProjects() {
           console.error("❌ Failed to load progress:", error);
         }
       }
-      function renderWeeks() {
-  const weeklyProgress = progressData.weeklyProgress || [];
 
-  document.getElementById("weeks").innerHTML =
-    weeklyProgress
-      .map((weekProgress) => {
-        const weekDays = DAYS.filter(
-          (day) => Number(day.week.replace("Week ", "")) === weekProgress.week
-        );
+      function getDayStatus(day) {
+        const completed = isCompleted(day.id);
+        const dayDate = iso(day.date);
 
-        if (!weekDays.length) {
-          return "";
+        if (completed) {
+          return {
+            text: "Completed",
+            className: "completed",
+          };
         }
 
-        const firstDay = weekDays[0];
+        if (dayDate === todayIso) {
+          return {
+            text: "Today",
+            className: "today",
+          };
+        }
 
-        return `
-          <div class="week">
-            <h4>
-              Week ${weekProgress.week} · ${firstDay.phase}
-            </h4>
+        if (dayDate < todayIso) {
+          return {
+            text: "Missed",
+            className: "missed",
+          };
+        }
 
-            <p>${firstDay.focus}</p>
-            <p>${firstDay.project}</p>
+        return {
+          text: "Upcoming",
+          className: "upcoming",
+        };
+      }
+      function renderWeeks(filter = "all") {
+        const container = document.getElementById("weeks");
 
-            <div class="progressrow">
-              <span>
-                ${weekProgress.completedDays}/${weekProgress.totalDays} days
-              </span>
+        if (!DAYS.length) {
+          container.innerHTML =
+            "<p class='settings'>No study days available.</p>";
+          return;
+        }
 
-              <span>
-                ${weekProgress.percentage}%
-              </span>
-            </div>
+        const todayId = DAYS.find((day) => iso(day.date) === todayIso)?.id;
 
-            <div class="bar">
-              <i style="width:${weekProgress.percentage}%"></i>
-            </div>
+       const filteredDays = DAYS.filter((day) => {
+  const completed = isCompleted(day.id);
+  const isToday = iso(day.date) === todayIso;
 
-            <p style="margin-top:10px">
-              ${weekProgress.completedHours}/${weekProgress.plannedHours} hours
-            </p>
-          </div>
-        `;
-      })
-      .join("");
-}
+  if (filter === "today") {
+    return isToday;
+  }
+
+  if (filter === "completed") {
+    return completed;
+  }
+
+  if (filter === "pending") {
+    return !completed;
+  }
+
+  return true;
+});
+
+        if (!filteredDays.length) {
+          container.innerHTML =
+            "<p class='settings'>No days match this filter.</p>";
+          return;
+        }
+
+        const groups = {};
+
+        filteredDays.forEach((day) => {
+          const week = day.week || "Unassigned";
+
+          if (!groups[week]) {
+            groups[week] = [];
+          }
+
+          groups[week].push(day);
+        });
+
+        container.innerHTML = Object.entries(groups)
+          .map(([week, days]) => {
+            const weekNumber = Number(week.replace("Week ", ""));
+
+            return `
+        <div class="roadmap-week-heading">
+          ${week}
+
+          ${
+            Number.isNaN(weekNumber)
+              ? ""
+              : `<span class="roadmap-status pending">
+                   ${weekNumber}
+                 </span>`
+          }
+        </div>
+
+        ${days
+          .map((day) => {
+  const completed = isCompleted(day.id);
+  const status = getDayStatus(day);
+
+  const title = day.focus.replace(
+    /^Learn: |^Practice: |^Build: /,
+    "");
+
+  return `
+              <div
+                class="roadmap-day ${
+  completed ? "completed" : ""
+} ${
+  status.className === "today" ? "today" : ""
+}"
+              >
+                <div class="roadmap-day-top">
+
+                  <div class="roadmap-day-info">
+
+                    <div class="roadmap-day-date">
+                      ${formatDate(day.date, {
+                        weekday: "long",
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+
+          <span
+  class="roadmap-status ${status.className}"
+>
+  ${status.text}
+</span>
+                    </div>
+
+                    <div class="roadmap-day-meta">
+                      ${day.phase} · ${day.hours}h
+                    </div>
+
+                    <div class="roadmap-day-title">
+                      ${title}
+                    </div>
+
+                    <div class="roadmap-day-details">
+                      ${day.practice}
+                    </div>
+
+                    <div
+                      class="roadmap-day-details"
+                      style="margin-top:6px"
+                    >
+                      <strong>Project:</strong>
+                      ${day.project}
+                    </div>
+
+                  </div>
+
+                  <button
+                    class="roadmap-day-action ${completed ? "complete" : ""}"
+                    data-roadmap-day="${day.id}"
+                  >
+                    ${completed ? "✓ Completed" : "Mark complete"}
+                  </button>
+
+                </div>
+              </div>
+            `;
+          })
+          .join("")}
+      `;
+          })
+          .join("");
+
+        // Attach button listeners after the HTML exists.
+        document.querySelectorAll("[data-roadmap-day]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const studyDayId = Number(button.dataset.roadmapDay);
+
+            button.disabled = true;
+
+            await toggleCompletion(studyDayId);
+
+            button.disabled = false;
+          });
+        });
+      }
+
+      let roadmapFilter = "all";
+
+      document.querySelectorAll(".roadmap-filter").forEach((button) => {
+        button.addEventListener("click", () => {
+          roadmapFilter = button.dataset.filter;
+
+          document.querySelectorAll(".roadmap-filter").forEach((item) => {
+            item.classList.toggle("active", item === button);
+          });
+
+          renderWeeks(roadmapFilter);
+        });
+      });
       function renderProgress() {
-  const recentCompletions = [...completions]
-    .sort(
-      (a, b) =>
-        new Date(b.completedAt) -
-        new Date(a.completedAt)
-    )
-    .slice(0, 7);
+        const recentCompletions = [...completions]
+          .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
+          .slice(0, 7);
 
-  const weekly = progressData.weeklyProgress || [];
-  const phases = progressData.phaseProgress || [];
+        const weekly = progressData.weeklyProgress || [];
+        const phases = progressData.phaseProgress || [];
 
-  document.getElementById("progressContent").innerHTML = `
+        document.getElementById("progressContent").innerHTML = `
     <div class="stats">
       <div class="stat">
         <b>${progressData.overallProgress}%</b>
@@ -1180,8 +1657,9 @@ function renderProjects() {
       <h3>Weekly progress</h3>
 
       <div class="list">
-        ${
-          weekly.map((week) => `
+        ${weekly
+          .map(
+            (week) => `
             <div class="phase">
               <div class="progressrow">
                 <strong>Week ${week.week}</strong>
@@ -1200,8 +1678,9 @@ function renderProjects() {
                 <i style="width:${week.percentage}%"></i>
               </div>
             </div>
-          `).join("")
-        }
+          `,
+          )
+          .join("")}
       </div>
     </div>
 
@@ -1209,8 +1688,9 @@ function renderProjects() {
       <h3>Phase progress</h3>
 
       <div class="list">
-        ${
-          phases.map((phase) => `
+        ${phases
+          .map(
+            (phase) => `
             <div class="phase">
               <div class="progressrow">
                 <strong>${phase.phase}</strong>
@@ -1229,8 +1709,9 @@ function renderProjects() {
                 <i style="width:${phase.percentage}%"></i>
               </div>
             </div>
-          `).join("")
-        }
+          `,
+          )
+          .join("")}
       </div>
     </div>
 
@@ -1240,19 +1721,20 @@ function renderProjects() {
       <div class="list">
         ${
           recentCompletions.length
-            ? recentCompletions.map((completion) => {
-                const studyDay = DAYS.find(
-                  (day) => day.id === completion.studyDayId
-                );
+            ? recentCompletions
+                .map((completion) => {
+                  const studyDay = DAYS.find(
+                    (day) => day.id === completion.studyDayId,
+                  );
 
-                if (!studyDay) return "";
+                  if (!studyDay) return "";
 
-                return `
+                  return `
                   <div class="dayitem done">
                     <div class="d">
                       ${formatDate(studyDay.date, {
                         month: "short",
-                        day: "numeric"
+                        day: "numeric",
                       })}
                     </div>
 
@@ -1260,7 +1742,7 @@ function renderProjects() {
                       <b>
                         ${studyDay.focus.replace(
                           /^Learn: |^Practice: |^Build: /,
-                          ""
+                          "",
                         )}
                       </b>
 
@@ -1277,25 +1759,22 @@ function renderProjects() {
                     </button>
                   </div>
                 `;
-              }).join("")
+                })
+                .join("")
             : "<p class='settings'>Complete your first day and your activity will appear here.</p>"
         }
       </div>
     </div>
   `;
 
-  document
-    .querySelectorAll("[data-completion-id]")
-    .forEach((button) => {
-      button.onclick = () => {
-        const studyDayId = Number(
-          button.dataset.completionId
-        );
+        document.querySelectorAll("[data-completion-id]").forEach((button) => {
+          button.onclick = () => {
+            const studyDayId = Number(button.dataset.completionId);
 
-        toggleCompletion(studyDayId);
-      };
-    });
-}
+            toggleCompletion(studyDayId);
+          };
+        });
+      }
       function showView(id) {
         document
           .querySelectorAll(".view")
@@ -1315,163 +1794,143 @@ function renderProjects() {
           : hour < 18
             ? "Good afternoon."
             : "Good evening.";
-let authMode = "login";
+      let authMode = "login";
 
-function setAuthMode(mode) {
-  authMode = mode;
+      function setAuthMode(mode) {
+        authMode = mode;
 
-  const isLogin = mode === "login";
+        const isLogin = mode === "login";
 
-  document.getElementById("loginTab")
-    .classList.toggle("active", isLogin);
-
-  document.getElementById("registerTab")
-    .classList.toggle("active", !isLogin);
-
-  document.getElementById("nameField")
-    .classList.toggle("hidden", isLogin);
-
-  document.getElementById("usernameField")
-    .classList.toggle("hidden", isLogin);
-
-  document.getElementById("authSubmit").textContent =
-    isLogin ? "Login" : "Create account";
-
-  document.getElementById("authMessage").textContent = "";
-}
-
-async function handleAuthSubmit(event) {
-  event.preventDefault();
-
-  const message = document.getElementById("authMessage");
-
-  const email =
-    document.getElementById("authEmail").value.trim();
-
-  const password =
-    document.getElementById("authPassword").value;
-
-  try {
-    message.textContent =
-      authMode === "login"
-        ? "Logging in..."
-        : "Creating account...";
-
-    let response;
-
-    if (authMode === "login") {
-      response = await apiRequest("/auth/login", {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-    } else {
-      const name =
-        document.getElementById("authName")
-          .value.trim();
-
-      const username =
-        document.getElementById("authUsername")
-          .value.trim();
-
-      response = await apiRequest("/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          name,
-          username,
-          email,
-          password,
-        }),
-      });
-
-      // Registration doesn't return a JWT,
-      // so automatically switch to login.
-      setAuthMode("login");
-
-      message.textContent =
-        "Account created. Please log in.";
-
-      return;
-    }
-
-    localStorage.setItem(
-      "devtrack_token",
-      response.data.token
-    );
-
-    document
-      .getElementById("authScreen")
-      .classList.add("hidden");
-
-    await initializeApp();
-
-  } catch (error) {
-    console.error("Authentication failed:", error);
-
-    message.textContent =
-      error.message || "Authentication failed";
-  }
-}
-
-document
-  .getElementById("loginTab")
-  .addEventListener("click", () =>
-    setAuthMode("login")
-  );
-
-document
-  .getElementById("registerTab")
-  .addEventListener("click", () =>
-    setAuthMode("register")
-  );
-
-document
-  .getElementById("authForm")
-  .addEventListener(
-    "submit",
-    handleAuthSubmit
-  );
-
-  async function initializeApp() {
-await loadStudyDays();
-await loadCompletions();
-await loadProgress();
-await loadProjects();
-renderProjects();
-
-render();
-  console.log("✅ DevTrack initialized");
-}
-
-async function startApp() {
-  showLoading("Connecting to DevTrack...");
-
-  try {
-    if (localStorage.getItem("devtrack_token")) {
-      try {
-        await apiRequest("/auth/me");
+        document.getElementById("loginTab").classList.toggle("active", isLogin);
 
         document
-          .getElementById("authScreen")
-          .classList.add("hidden");
+          .getElementById("registerTab")
+          .classList.toggle("active", !isLogin);
 
-        await initializeApp();
+        document
+          .getElementById("nameField")
+          .classList.toggle("hidden", isLogin);
 
-        return;
-      } catch {
-        localStorage.removeItem("devtrack_token");
+        document
+          .getElementById("usernameField")
+          .classList.toggle("hidden", isLogin);
+
+        document.getElementById("authSubmit").textContent = isLogin
+          ? "Login"
+          : "Create account";
+
+        document.getElementById("authMessage").textContent = "";
       }
-    }
 
-    setAuthMode("login");
-  } finally {
-    hideLoading();
-  }
-}
+      async function handleAuthSubmit(event) {
+        event.preventDefault();
 
-startApp();
+        const message = document.getElementById("authMessage");
+
+        const email = document.getElementById("authEmail").value.trim();
+
+        const password = document.getElementById("authPassword").value;
+
+        try {
+          message.textContent =
+            authMode === "login" ? "Logging in..." : "Creating account...";
+
+          let response;
+
+          if (authMode === "login") {
+            response = await apiRequest("/auth/login", {
+              method: "POST",
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+            });
+          } else {
+            const name = document.getElementById("authName").value.trim();
+
+            const username = document
+              .getElementById("authUsername")
+              .value.trim();
+
+            response = await apiRequest("/auth/register", {
+              method: "POST",
+              body: JSON.stringify({
+                name,
+                username,
+                email,
+                password,
+              }),
+            });
+
+            // Registration doesn't return a JWT,
+            // so automatically switch to login.
+            setAuthMode("login");
+
+            message.textContent = "Account created. Please log in.";
+
+            return;
+          }
+
+          localStorage.setItem("devtrack_token", response.data.token);
+
+          document.getElementById("authScreen").classList.add("hidden");
+
+          await initializeApp();
+        } catch (error) {
+          console.error("Authentication failed:", error);
+
+          message.textContent = error.message || "Authentication failed";
+        }
+      }
+
+      document
+        .getElementById("loginTab")
+        .addEventListener("click", () => setAuthMode("login"));
+
+      document
+        .getElementById("registerTab")
+        .addEventListener("click", () => setAuthMode("register"));
+
+      document
+        .getElementById("authForm")
+        .addEventListener("submit", handleAuthSubmit);
+
+      async function initializeApp() {
+        await loadStudyDays();
+        await loadCompletions();
+        await loadProgress();
+        await loadProjects();
+        renderProjects();
+
+        render();
+        console.log("✅ DevTrack initialized");
+      }
+
+      async function startApp() {
+        showLoading("Connecting to DevTrack...");
+
+        try {
+          if (localStorage.getItem("devtrack_token")) {
+            try {
+              await apiRequest("/auth/me");
+
+              document.getElementById("authScreen").classList.add("hidden");
+
+              await initializeApp();
+
+              return;
+            } catch {
+              localStorage.removeItem("devtrack_token");
+            }
+          }
+
+          setAuthMode("login");
+        } finally {
+          hideLoading();
+        }
+      }
+
+      startApp();
     </script>
   </body>
 </html>
