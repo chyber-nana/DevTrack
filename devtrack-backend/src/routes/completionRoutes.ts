@@ -11,11 +11,11 @@ const router = Router();
 
 router.get("/", authenticate, getCompletions);
 router.post("/:studyDayId", authenticate, completeDay);
-router.delete("/:studyDayId", authenticate, uncompleteDay);
 router.delete(
   "/reset",
   authenticate,
   resetCompletions
 );
+router.delete("/:studyDayId", authenticate, uncompleteDay);
 
 export default router;
