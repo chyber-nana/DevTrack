@@ -1,0 +1,48 @@
+// use prisma-8
+
+model User {
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  username     String?      @unique
+  name         String?
+  passwordHash String
+
+  completions  Completion[]
+
+  createdAt    TimestamptzString @default(now())
+  updatedAt    temporal.updatedAtString()
+}
+
+model StudyDay {
+  id            Int          @id @default(autoincrement())
+  date          TimestamptzString @unique
+  week          Int
+  phase         String
+  focus         String
+  practice      String
+  projectTarget String
+  hours         Int
+
+  completions   Completion[]
+}
+
+model Completion {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  studyDay    StudyDay  @relation(fields: [studyDayId], references: [id])
+  studyDayId  Int
+  completedAt TimestamptzString @default(now())
+  notes       String?
+
+  @@unique([userId, studyDayId])
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  progress    Int       @default(0)
+  createdAt   TimestamptzString @default(now())
+  updatedAt   temporal.updatedAtString()
+}

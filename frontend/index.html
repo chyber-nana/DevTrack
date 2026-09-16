@@ -1,0 +1,1477 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DevTrack — Developer Roadmap</title>
+    <style>
+      :root {
+        --bg: #080b12;
+        --panel: #10151f;
+        --panel2: #151b27;
+        --text: #f4f7fb;
+        --muted: #8994a7;
+        --accent: #55d6be;
+        --accent2: #7aa7ff;
+        --border: #222b3a;
+        --danger: #ff7c86;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 80% -10%, #173d3a 0, transparent 35%),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          sans-serif;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      .auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: var(--bg);
+}
+
+.auth-screen.hidden {
+  display: none;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 60px #0006;
+}
+
+.auth-brand {
+  padding: 0 0 24px;
+  text-align: center;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 22px;
+  background: var(--panel2);
+  border-radius: 10px;
+}
+
+.auth-tab {
+  border: 0;
+  background: transparent;
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.auth-tab.active {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.auth-field {
+  margin-bottom: 15px;
+}
+
+.auth-field.hidden {
+  display: none;
+}
+
+.auth-field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.auth-field input {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel2);
+  color: var(--text);
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: var(--accent);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.auth-message {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: 245px;
+        border-right: 1px solid var(--border);
+        padding: 24px 16px;
+        background: #0b0f17;
+        position: fixed;
+        inset: 0 auto 0 0;
+      }
+      .brand {
+        font-size: 21px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        padding: 8px 10px 28px;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      .nav button {
+        display: block;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        text-align: left;
+        padding: 12px 13px;
+        border-radius: 10px;
+        color: var(--muted);
+        margin: 4px 0;
+      }
+      .nav button.active,
+      .nav button:hover {
+        background: var(--panel2);
+        color: var(--text);
+      }
+      .main {
+        margin-left: 245px;
+        width: calc(100% - 245px);
+        padding: 30px;
+        max-width: 1250px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+      }
+      .eyebrow {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .top h1 {
+        margin: 6px 0 0;
+        font-size: 31px;
+        letter-spacing: -1px;
+      }
+      .date {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.4fr 0.8fr;
+        gap: 18px;
+      }
+      .card {
+        background: linear-gradient(145deg, var(--panel), #0d121b);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 12px 35px #0002;
+      }
+      .hero {
+        min-height: 265px;
+      }
+      .hero h2 {
+        font-size: 27px;
+        margin: 8px 0 14px;
+      }
+      .hero p {
+        color: #b8c1d0;
+        line-height: 1.6;
+      }
+      .tag {
+        display: inline-block;
+        background: #18352f;
+        color: var(--accent);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .primary {
+        border: 0;
+        background: var(--accent);
+        color: #07110f;
+        padding: 11px 16px;
+        border-radius: 10px;
+        font-weight: 800;
+      }
+      .secondary {
+        border: 1px solid var(--border);
+        background: var(--panel2);
+        padding: 11px 16px;
+        border-radius: 10px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .stat {
+        padding: 17px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+      .stat b {
+        display: block;
+        font-size: 25px;
+      }
+      .stat span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 11, 18, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.loading-overlay.hidden {
+  display: none;
+}
+
+.loading-card {
+  min-width: 230px;
+  padding: 24px;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px #0006;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 14px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: devtrack-spin 0.8s linear infinite;
+}
+
+.loading-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@keyframes devtrack-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+      .bar {
+        height: 9px;
+        background: #202938;
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        border-radius: 99px;
+      }
+      .section {
+        margin-top: 18px;
+      }
+      .section h3 {
+        margin: 0 0 12px;
+        font-size: 17px;
+      }
+      .roadmap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .phase {
+        padding: 17px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+      }
+      .phase small {
+        color: var(--muted);
+      }
+      .phase strong {
+        display: block;
+        margin: 7px 0 10px;
+      }
+      .progressrow {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 7px;
+      }
+      .project {
+        margin-top: 18px;
+      }
+      .projectrow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .projectrow:last-child {
+        border-bottom: 0;
+      }
+      .projectrow span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .view {
+        display: none;
+      }
+      .view.active {
+        display: block;
+      }
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+      .dayitem {
+        padding: 16px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 13px;
+        display: grid;
+        grid-template-columns: 105px 1fr auto;
+        gap: 15px;
+        align-items: center;
+      }
+      .dayitem.done {
+        opacity: 0.58;
+      }
+      .dayitem .d {
+        font-weight: 800;
+      }
+      .dayitem small {
+        display: block;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .logout-btn {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+}
+
+.logout-btn:hover {
+  background: var(--panel2);
+  color: var(--text);
+}
+      .check {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid #354154;
+        background: transparent;
+      }
+      .check.done {
+        background: var(--accent);
+        color: #06100e;
+        border-color: var(--accent);
+      }
+      .roadmapFull {
+        display: grid;
+        gap: 12px;
+      }
+      .week {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 17px;
+      }
+      .week h4 {
+        margin: 0 0 6px;
+      }
+      .week p {
+        margin: 4px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .settings {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .reset {
+        margin-top: 20px;
+        border: 1px solid #4a2930;
+        background: #25141a;
+        color: #ff9ba2;
+        padding: 10px 14px;
+        border-radius: 9px;
+      }
+      @media (max-width: 850px) {
+        .sidebar {
+          position: static;
+          width: 100%;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .app {
+          display: block;
+        }
+        .main {
+          margin: 0;
+          width: 100%;
+          padding: 20px;
+        }
+        .nav {
+          display: flex;
+          gap: 6px;
+          overflow: auto;
+        }
+        .nav button {
+          white-space: nowrap;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .roadmap {
+          grid-template-columns: 1fr 1fr;
+        }
+        .dayitem {
+          grid-template-columns: 75px 1fr auto;
+        }
+      }
+      @media (max-width: 520px) {
+        .stats,
+        .roadmap {
+          grid-template-columns: 1fr;
+        }
+        .top h1 {
+          font-size: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="loading-card">
+    <div class="spinner"></div>
+    <p id="loadingText">Connecting to DevTrack...</p>
+  </div>
+</div>
+    <div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="brand auth-brand">Dev<span>Track</span></div>
+
+    <div class="auth-tabs">
+      <button id="loginTab" class="auth-tab active">Login</button>
+      <button id="registerTab" class="auth-tab">Register</button>
+    </div>
+
+    <form id="authForm">
+      <div id="nameField" class="auth-field hidden">
+        <label for="authName">Name</label>
+        <input id="authName" type="text" placeholder="Your name">
+      </div>
+
+      <div class="auth-field">
+        <label for="authEmail">Email</label>
+        <input id="authEmail" type="email" required placeholder="you@example.com">
+      </div>
+
+      <div id="usernameField" class="auth-field hidden">
+        <label for="authUsername">Username</label>
+        <input id="authUsername" type="text" placeholder="yourusername">
+      </div>
+
+      <div class="auth-field">
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" required placeholder="••••••••">
+      </div>
+
+      <button class="primary auth-submit" type="submit" id="authSubmit">
+        Login
+      </button>
+
+      <p id="authMessage" class="auth-message"></p>
+    </form>
+  </div>
+</div>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">Dev<span>Track</span></div>
+        <nav class="nav">
+          <button class="active" data-view="dashboard">⌂ Dashboard</button>
+          <button data-view="today">✓ Today</button>
+          <button data-view="roadmap">▦ Roadmap</button>
+          <button data-view="progress">◔ Progress</button>
+          <button data-view="projects">◆ Projects</button>
+          
+        </nav>
+        <button id="logoutBtn" class="logout-btn">
+  ↪ Logout
+</button>
+      </aside>
+      <main class="main">
+        <div class="top">
+          <div>
+            <div class="eyebrow">Developer training</div>
+            <h1 id="title">Good morning.</h1>
+          </div>
+          <div class="date" id="todayDate"></div>
+        </div>
+
+        <section id="dashboard" class="view active">
+          <div class="grid">
+            <div class="card hero">
+              <span class="tag" id="todayPhase">Today</span>
+              <h2 id="todayTitle">Loading…</h2>
+              <p id="todayDesc"></p>
+              <div class="bar"><i id="mainBar"></i></div>
+              <div class="actions">
+                <button class="primary" id="completeBtn">
+                  Mark today complete
+                </button>
+                <button class="secondary" onclick="showView('today')">
+                  Open today's plan
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="eyebrow">Your momentum</div>
+              <div class="stats" style="grid-template-columns: 1fr">
+                <div class="stat">
+                  <b id="overall">0%</b><span>roadmap complete</span>
+                </div>
+                <div class="stat">
+                  <b id="streak">0 🔥</b><span>day streak</span>
+                </div>
+                <div class="stat">
+                  <b id="hours">0h</b><span>planned hours completed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="section card">
+            <h3>Roadmap at a glance</h3>
+            <div class="roadmap" id="phaseCards"></div>
+          </div>
+          <div class="section card project">
+            <h3>Portfolio projects</h3>
+     <div class="project" id="dashboardProjects"></div>
+          </div>
+        </section>
+
+        <section id="today" class="view">
+          <div class="card hero">
+            <span class="tag" id="todayTag"></span>
+            <h2 id="fullTodayTitle"></h2>
+            <p id="fullTodayFocus"></p>
+            <h3>Practice / Build</h3>
+            <p id="fullTodayPractice"></p>
+            <h3>Project target</h3>
+            <p id="fullTodayProject"></p>
+            <div class="actions">
+              <button class="primary" id="todayComplete">Mark complete</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="roadmap" class="view">
+          <div class="card">
+            <div class="eyebrow">All weeks</div>
+            <h2>Roadmap</h2>
+            <div class="roadmapFull" id="weeks"></div>
+          </div>
+        </section>
+
+        <section id="progress" class="view">
+          <div class="card">
+            <div class="eyebrow">Your progress</div>
+            <h2>Keep moving.</h2>
+            <div id="progressContent"></div>
+          </div>
+        </section>
+
+        <section id="projects" class="view">
+          <div class="card">
+            <div class="eyebrow">Build proof</div>
+            <h2>Portfolio projects</h2>
+            <p class="settings">
+              The projects are deliberately aligned with the skills you're
+              learning. Your goal is not just to finish lessons — it's to finish
+              software you can show a client.
+            </p>
+            <div id="projectsList"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script type="module">
+      import { apiRequest } from "./api.js";
+      let DAYS = [];
+      let completions = [];
+      function formatDate(value, options = {}) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
+
+  return date.toLocaleDateString(
+    undefined,
+    options
+  );
+}
+      async function loadCompletions() {
+        try {
+          const response = await apiRequest("/completions");
+          completions = response.data;
+
+          console.log(`✅ Loaded ${completions.length} completions from API`);
+        } catch (error) {
+          console.error("❌ Failed to load completions:", error);
+        }
+      }
+
+      function isCompleted(studyDayId) {
+        return completions.some(
+          (completion) => completion.studyDayId === studyDayId,
+        );
+      }
+
+      async function toggleCompletion(studyDayId) {
+        try {
+          if (isCompleted(studyDayId)) {
+            await apiRequest(`/completions/${studyDayId}`, {
+              method: "DELETE",
+            });
+          } else {
+            await apiRequest(`/completions/${studyDayId}`, {
+              method: "POST",
+            });
+          }
+
+          await loadCompletions();
+
+          render();
+        } catch (error) {
+          console.error("❌ Failed to update completion:", error);
+        }
+      }
+      async function loadStudyDays() {
+        try {
+          const response = await apiRequest("/study-days");
+
+          DAYS = response.data.map((day) => ({
+            id: day.id,
+            date: day.date,
+            day: new Date(day.date).toLocaleDateString(undefined, {
+              weekday: "long",
+            }),
+            week: `Week ${day.week}`,
+            phase: day.phase,
+            focus: day.focus,
+            practice: day.practice,
+            project: day.projectTarget,
+            hours: day.hours,
+          }));
+
+          console.log(`✅ Loaded ${DAYS.length} study days from API`);
+        } catch (error) {
+          console.error("❌ Failed to load study days:", error);
+        }
+      }
+      const iso = (value) => new Date(value).toISOString().slice(0, 10);
+      const todayIso = iso(new Date());
+
+      function currentIndex() {
+        const index = DAYS.findIndex((day) => iso(day.date) === todayIso);
+
+        return index >= 0 ? index : 0;
+      }
+      let projects = [];
+
+async function loadProjects() {
+  try {
+    const response = await apiRequest("/projects");
+    projects = response.data;
+
+    console.log(
+      `✅ Loaded ${projects.length} projects from API`
+    );
+  } catch (error) {
+    console.error(
+      "❌ Failed to load projects:",
+      error
+    );
+  }
+}
+
+function logout() {
+  localStorage.removeItem("devtrack_token");
+
+  completions = [];
+  projects = [];
+  DAYS = [];
+
+  document
+    .getElementById("authScreen")
+    .classList.remove("hidden");
+
+  setAuthMode("login");
+
+  document
+    .getElementById("authForm")
+    .reset();
+
+  console.log("✅ Logged out");
+}
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener("click", logout);
+function showLoading(message = "Loading DevTrack...") {
+  const overlay =
+    document.getElementById("loadingOverlay");
+
+  const text =
+    document.getElementById("loadingText");
+
+  text.textContent = message;
+  overlay.classList.remove("hidden");
+}
+
+function hideLoading() {
+  document
+    .getElementById("loadingOverlay")
+    .classList.add("hidden");
+}
+async function updateProjectProgress(
+  projectId,
+  progress
+) {
+  try {
+    showLoading("Saving project progress...");
+
+    await apiRequest(
+      `/projects/${projectId}/progress`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({ progress }),
+      }
+    );
+
+    await loadProjects();
+    await loadProgress();
+
+    renderProjects();
+    render();
+
+    console.log(
+      `✅ Project ${projectId} progress updated to ${progress}%`
+    );
+  } catch (error) {
+    console.error(
+      "❌ Failed to update project progress:",
+      error
+    );
+  } finally {
+    hideLoading();
+  }
+}
+
+function renderProjects() {
+  const dashboardProjects =
+    document.getElementById("dashboardProjects");
+
+  const projectsList =
+    document.getElementById("projectsList");
+
+  if (!projects.length) {
+    dashboardProjects.innerHTML =
+      "<p class='settings'>No projects found.</p>";
+
+    projectsList.innerHTML =
+      "<p class='settings'>No projects found.</p>";
+
+    return;
+  }
+
+  // Dashboard project cards
+  dashboardProjects.innerHTML = projects
+    .map(
+      (project) => `
+        <div class="projectrow">
+          <div>
+            <b>${project.name}</b>
+            <span>${project.progress}% complete</span>
+          </div>
+          <b>→</b>
+        </div>
+      `
+    )
+    .join("");
+
+  // Full projects page
+  projectsList.innerHTML = projects
+    .map(
+      (project) => `
+        <div class="projectrow">
+          <div style="flex:1">
+            <b>${project.name}</b>
+            <span>${project.description ?? ""}</span>
+
+            <div
+              class="bar"
+              style="margin-top:10px"
+            >
+              <i style="width:${project.progress}%"></i>
+            </div>
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:12px;
+                margin-top:12px;
+              "
+            >
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                value="${project.progress}"
+                data-project-id="${project.id}"
+                class="project-slider"
+                style="flex:1"
+              >
+
+              <strong
+                class="project-progress-value"
+                style="min-width:45px;text-align:right"
+              >
+                ${project.progress}%
+              </strong>
+            </div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  // Attach listeners AFTER the sliders exist
+  document
+    .querySelectorAll(".project-slider")
+    .forEach((slider) => {
+      const valueElement =
+        slider.parentElement.querySelector(
+          ".project-progress-value"
+        );
+
+      // Update number instantly while dragging
+      slider.addEventListener("input", () => {
+        valueElement.textContent =
+          `${slider.value}%`;
+      });
+
+      // Save to PostgreSQL when released
+      slider.addEventListener("change", async () => {
+        const projectId = Number(
+          slider.dataset.projectId
+        );
+
+        const progress = Number(slider.value);
+
+        await updateProjectProgress(
+          projectId,
+          progress
+        );
+      });
+    });
+}
+      function pct() {
+        return DAYS.length === 0
+          ? 0
+          : Math.round((completions.length / DAYS.length) * 100);
+      }
+      let progressData = {
+        totalDays: 0,
+        completedDays: 0,
+        overallProgress: 0,
+        plannedHours: 0,
+        completedHours: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        weeklyProgress: [],
+        phaseProgress: [],
+        projectProgress: [],
+      };
+      function render() {
+        const i = currentIndex();
+        const t = DAYS[i];
+        const done = isCompleted(t.id);
+        document.getElementById("todayDate").textContent =
+  formatDate(t.date, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+        document.getElementById("todayPhase").textContent = t.phase;
+        document.getElementById("todayTitle").textContent = t.focus.replace(
+          /^Learn: |^Practice: |^Build: /,
+          "",
+        );
+        document.getElementById("todayDesc").textContent = t.practice;
+        document.getElementById("mainBar").style.width =
+          progressData.overallProgress + "%";
+
+        document.getElementById("overall").textContent =
+          progressData.overallProgress + "%";
+
+        document.getElementById("streak").textContent =
+          progressData.currentStreak + " 🔥";
+
+        document.getElementById("hours").textContent =
+          progressData.completedHours + "h";
+        document.getElementById("completeBtn").textContent = done
+          ? "✓ Today completed"
+          : "Mark today complete";
+        document.getElementById("todayComplete").textContent = done
+          ? "✓ Today completed"
+          : "Mark complete";
+        document.getElementById("todayTag").textContent =
+          t.week + " · " + t.phase;
+        document.getElementById("fullTodayTitle").textContent = t.focus.replace(
+          /^Learn: |^Practice: |^Build: /,
+          "",
+        );
+        document.getElementById("fullTodayFocus").textContent = t.focus;
+        document.getElementById("fullTodayPractice").textContent = t.practice;
+        document.getElementById("fullTodayProject").textContent = t.project;
+        document.getElementById("completeBtn").onclick = () => {
+          const index = currentIndex();
+          const today = DAYS[index];
+
+          console.log("Completing study day:", today.id, today.date);
+
+          toggleCompletion(today.id);
+        };
+        document.getElementById("todayComplete").onclick = () => {
+          const index = currentIndex();
+          const today = DAYS[index];
+
+          toggleCompletion(today.id);
+        };
+        renderPhases();
+        renderWeeks();
+        renderProgress();
+      }
+
+      function renderPhases() {
+        const groups = {};
+
+        DAYS.forEach((day) => {
+          if (!groups[day.phase]) {
+            groups[day.phase] = [];
+          }
+
+          groups[day.phase].push(day);
+        });
+
+        document.getElementById("phaseCards").innerHTML = Object.entries(groups)
+          .slice(0, 9)
+          .map(([phase, days]) => {
+            const completedCount = days.filter((day) =>
+              isCompleted(day.id),
+            ).length;
+
+            const percentage =
+              days.length === 0
+                ? 0
+                : Math.round((completedCount / days.length) * 100);
+
+            return `
+          <div class="phase">
+            <small>${days.length} study days</small>
+
+            <strong>${phase}</strong>
+
+            <div class="progressrow">
+              <span>${completedCount} complete</span>
+              <span>${percentage}%</span>
+            </div>
+
+            <div class="bar">
+              <i style="width:${percentage}%"></i>
+            </div>
+          </div>
+        `;
+          })
+          .join("");
+      }
+      async function loadProgress() {
+        try {
+          const response = await apiRequest("/progress");
+          progressData = response.data;
+
+          console.log("✅ Loaded progress from API");
+        } catch (error) {
+          console.error("❌ Failed to load progress:", error);
+        }
+      }
+      function renderWeeks() {
+  const weeklyProgress = progressData.weeklyProgress || [];
+
+  document.getElementById("weeks").innerHTML =
+    weeklyProgress
+      .map((weekProgress) => {
+        const weekDays = DAYS.filter(
+          (day) => Number(day.week.replace("Week ", "")) === weekProgress.week
+        );
+
+        if (!weekDays.length) {
+          return "";
+        }
+
+        const firstDay = weekDays[0];
+
+        return `
+          <div class="week">
+            <h4>
+              Week ${weekProgress.week} · ${firstDay.phase}
+            </h4>
+
+            <p>${firstDay.focus}</p>
+            <p>${firstDay.project}</p>
+
+            <div class="progressrow">
+              <span>
+                ${weekProgress.completedDays}/${weekProgress.totalDays} days
+              </span>
+
+              <span>
+                ${weekProgress.percentage}%
+              </span>
+            </div>
+
+            <div class="bar">
+              <i style="width:${weekProgress.percentage}%"></i>
+            </div>
+
+            <p style="margin-top:10px">
+              ${weekProgress.completedHours}/${weekProgress.plannedHours} hours
+            </p>
+          </div>
+        `;
+      })
+      .join("");
+}
+      function renderProgress() {
+  const recentCompletions = [...completions]
+    .sort(
+      (a, b) =>
+        new Date(b.completedAt) -
+        new Date(a.completedAt)
+    )
+    .slice(0, 7);
+
+  const weekly = progressData.weeklyProgress || [];
+  const phases = progressData.phaseProgress || [];
+
+  document.getElementById("progressContent").innerHTML = `
+    <div class="stats">
+      <div class="stat">
+        <b>${progressData.overallProgress}%</b>
+        <span>roadmap complete</span>
+      </div>
+
+      <div class="stat">
+        <b>${progressData.completedDays}/${progressData.totalDays}</b>
+        <span>study days</span>
+      </div>
+
+      <div class="stat">
+        <b>${progressData.completedHours}h</b>
+        <span>hours completed</span>
+      </div>
+
+      <div class="stat">
+        <b>${progressData.currentStreak} 🔥</b>
+        <span>current streak</span>
+      </div>
+
+      <div class="stat">
+        <b>${progressData.longestStreak}</b>
+        <span>longest streak</span>
+      </div>
+    </div>
+
+    <div style="margin-top:22px">
+      <div class="progressrow">
+        <span>Overall roadmap progress</span>
+        <span>${progressData.overallProgress}%</span>
+      </div>
+
+      <div class="bar">
+        <i style="width:${progressData.overallProgress}%"></i>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Weekly progress</h3>
+
+      <div class="list">
+        ${
+          weekly.map((week) => `
+            <div class="phase">
+              <div class="progressrow">
+                <strong>Week ${week.week}</strong>
+                <span>${week.percentage}%</span>
+              </div>
+
+              <small>
+                ${week.completedDays}/${week.totalDays} days ·
+                ${week.completedHours}/${week.plannedHours} hours
+              </small>
+
+              <div
+                class="bar"
+                style="margin-top:10px"
+              >
+                <i style="width:${week.percentage}%"></i>
+              </div>
+            </div>
+          `).join("")
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Phase progress</h3>
+
+      <div class="list">
+        ${
+          phases.map((phase) => `
+            <div class="phase">
+              <div class="progressrow">
+                <strong>${phase.phase}</strong>
+                <span>${phase.percentage}%</span>
+              </div>
+
+              <small>
+                ${phase.completedDays}/${phase.totalDays} days ·
+                ${phase.completedHours}/${phase.plannedHours} hours
+              </small>
+
+              <div
+                class="bar"
+                style="margin-top:10px"
+              >
+                <i style="width:${phase.percentage}%"></i>
+              </div>
+            </div>
+          `).join("")
+        }
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Recent activity</h3>
+
+      <div class="list">
+        ${
+          recentCompletions.length
+            ? recentCompletions.map((completion) => {
+                const studyDay = DAYS.find(
+                  (day) => day.id === completion.studyDayId
+                );
+
+                if (!studyDay) return "";
+
+                return `
+                  <div class="dayitem done">
+                    <div class="d">
+                      ${formatDate(studyDay.date, {
+                        month: "short",
+                        day: "numeric"
+                      })}
+                    </div>
+
+                    <div>
+                      <b>
+                        ${studyDay.focus.replace(
+                          /^Learn: |^Practice: |^Build: /,
+                          ""
+                        )}
+                      </b>
+
+                      <small>
+                        ${studyDay.phase}
+                      </small>
+                    </div>
+
+                    <button
+                      class="check done"
+                      data-completion-id="${studyDay.id}"
+                    >
+                      ✓
+                    </button>
+                  </div>
+                `;
+              }).join("")
+            : "<p class='settings'>Complete your first day and your activity will appear here.</p>"
+        }
+      </div>
+    </div>
+  `;
+
+  document
+    .querySelectorAll("[data-completion-id]")
+    .forEach((button) => {
+      button.onclick = () => {
+        const studyDayId = Number(
+          button.dataset.completionId
+        );
+
+        toggleCompletion(studyDayId);
+      };
+    });
+}
+      function showView(id) {
+        document
+          .querySelectorAll(".view")
+          .forEach((x) => x.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        document
+          .querySelectorAll(".nav button")
+          .forEach((x) => x.classList.toggle("active", x.dataset.view === id));
+      }
+      document
+        .querySelectorAll(".nav button")
+        .forEach((b) => (b.onclick = () => showView(b.dataset.view)));
+      const hour = new Date().getHours();
+      document.getElementById("title").textContent =
+        hour < 12
+          ? "Good morning."
+          : hour < 18
+            ? "Good afternoon."
+            : "Good evening.";
+let authMode = "login";
+
+function setAuthMode(mode) {
+  authMode = mode;
+
+  const isLogin = mode === "login";
+
+  document.getElementById("loginTab")
+    .classList.toggle("active", isLogin);
+
+  document.getElementById("registerTab")
+    .classList.toggle("active", !isLogin);
+
+  document.getElementById("nameField")
+    .classList.toggle("hidden", isLogin);
+
+  document.getElementById("usernameField")
+    .classList.toggle("hidden", isLogin);
+
+  document.getElementById("authSubmit").textContent =
+    isLogin ? "Login" : "Create account";
+
+  document.getElementById("authMessage").textContent = "";
+}
+
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+
+  const message = document.getElementById("authMessage");
+
+  const email =
+    document.getElementById("authEmail").value.trim();
+
+  const password =
+    document.getElementById("authPassword").value;
+
+  try {
+    message.textContent =
+      authMode === "login"
+        ? "Logging in..."
+        : "Creating account...";
+
+    let response;
+
+    if (authMode === "login") {
+      response = await apiRequest("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+    } else {
+      const name =
+        document.getElementById("authName")
+          .value.trim();
+
+      const username =
+        document.getElementById("authUsername")
+          .value.trim();
+
+      response = await apiRequest("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          username,
+          email,
+          password,
+        }),
+      });
+
+      // Registration doesn't return a JWT,
+      // so automatically switch to login.
+      setAuthMode("login");
+
+      message.textContent =
+        "Account created. Please log in.";
+
+      return;
+    }
+
+    localStorage.setItem(
+      "devtrack_token",
+      response.data.token
+    );
+
+    document
+      .getElementById("authScreen")
+      .classList.add("hidden");
+
+    await initializeApp();
+
+  } catch (error) {
+    console.error("Authentication failed:", error);
+
+    message.textContent =
+      error.message || "Authentication failed";
+  }
+}
+
+document
+  .getElementById("loginTab")
+  .addEventListener("click", () =>
+    setAuthMode("login")
+  );
+
+document
+  .getElementById("registerTab")
+  .addEventListener("click", () =>
+    setAuthMode("register")
+  );
+
+document
+  .getElementById("authForm")
+  .addEventListener(
+    "submit",
+    handleAuthSubmit
+  );
+
+  async function initializeApp() {
+await loadStudyDays();
+await loadCompletions();
+await loadProgress();
+await loadProjects();
+renderProjects();
+
+render();
+  console.log("✅ DevTrack initialized");
+}
+
+async function startApp() {
+  showLoading("Connecting to DevTrack...");
+
+  try {
+    if (localStorage.getItem("devtrack_token")) {
+      try {
+        await apiRequest("/auth/me");
+
+        document
+          .getElementById("authScreen")
+          .classList.add("hidden");
+
+        await initializeApp();
+
+        return;
+      } catch {
+        localStorage.removeItem("devtrack_token");
+      }
+    }
+
+    setAuthMode("login");
+  } finally {
+    hideLoading();
+  }
+}
+
+startApp();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  completions  Completion[]
+}
+
+model StudyDay {
+  id            String       @id @default(uuid())
+  date          DateTime     @unique
+  week          Int
+  phase         String
+  focus         String
+  practice      String
+  projectTarget String
+  hours         Int
+
+  completions   Completion[]
+}
+
+model Completion {
+  id          String    @id @default(uuid())
+  userId      String
+  studyDayId  String
+  completedAt DateTime  @default(now())
+  notes       String?
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studyDay    StudyDay  @relation(fields: [studyDayId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, studyDayId])
+}
