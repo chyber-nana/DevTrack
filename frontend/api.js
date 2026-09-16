@@ -1,6 +1,6 @@
 const API_BASE_URL =
   window.DEVTRACK_API_URL ||
-  "http://localhost:5000/api";
+  "https://devtrack-w6u3.onrender.com";
 
 export async function apiRequest(
   endpoint,
