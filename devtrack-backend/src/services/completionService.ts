@@ -1,4 +1,5 @@
 import { db } from "../prisma/db.js";
+import { evaluateAchievements } from "./achievementService.js";
 
 export async function completeStudyDay(
   userId: number,
@@ -30,6 +31,8 @@ export async function completeStudyDay(
     userId,
     studyDayId,
   });
+
+  await evaluateAchievements(userId);
 
   return completion;
 }
