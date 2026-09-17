@@ -17,13 +17,18 @@ import { sql } from './database/sql.js';
 
 const app = express();
 
+const envOrigins = (process.env.FRONTEND_URL ?? '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const allowedOrigins = [
   'http://localhost:5501',
   'http://127.0.0.1:5501',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  process.env.FRONTEND_URL,
-].filter((value): value is string => Boolean(value));
+  ...envOrigins,
+];
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: '1mb' }));

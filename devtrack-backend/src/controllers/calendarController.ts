@@ -7,7 +7,7 @@ export async function getCalendar(req: AuthenticatedRequest, res: Response) {
     const from = typeof req.query.from === 'string' ? req.query.from : null;
     const to = typeof req.query.to === 'string' ? req.query.to : null;
     const result = await sql.query(
-      `SELECT sd.id, sd.date, sd.week, sd.phase, sd.focus, sd.practice, sd.projectTarget, sd.hours,
+      `SELECT sd.id, sd.date, sd.week, sd.phase, sd.focus, sd.practice, sd."projectTarget", sd.hours,
               (c.id IS NOT NULL) AS completed,
               c."completedAt"
        FROM "studyDay" sd
