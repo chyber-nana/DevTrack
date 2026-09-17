@@ -1,1936 +1,626 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>DevTrack — Developer Roadmap</title>
-    <style>
-      :root {
-        --bg: #080b12;
-        --panel: #10151f;
-        --panel2: #151b27;
-        --text: #f4f7fb;
-        --muted: #8994a7;
-        --accent: #55d6be;
-        --accent2: #7aa7ff;
-        --border: #222b3a;
-        --danger: #ff7c86;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background:
-          radial-gradient(circle at 80% -10%, #173d3a 0, transparent 35%),
-          var(--bg);
-        color: var(--text);
-        font-family:
-          Inter,
-          ui-sans-serif,
-          system-ui,
-          -apple-system,
-          Segoe UI,
-          sans-serif;
-      }
-      button {
-        font: inherit;
-        color: inherit;
-        cursor: pointer;
-      }
-      .auth-screen {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: var(--bg);
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111315">
+  <meta name="description" content="DevTrack — a practical developer training workspace.">
+  <title>DevTrack</title>
+  <style>
+    :root {
+      --bg: #111315;
+      --bg2: #171a1d;
+      --panel: #1a1e21;
+      --panel2: #20252a;
+      --line: #30363c;
+      --text: #f3f1eb;
+      --muted: #9ca4ab;
+      --soft: #c8c5bd;
+      --accent: #e9b949;
+      --accent-2: #8bb7ff;
+      --success: #7fd1ae;
+      --warning: #ef9e5a;
+      --danger: #ee7777;
+      --shadow: 0 24px 60px rgba(0,0,0,.24);
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); }
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    .hidden { display: none !important; }
 
-      .auth-screen.hidden {
-        display: none;
-      }
+    /* Shell */
+    .shell { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
+    .rail {
+      position: sticky; top: 0; height: 100vh; padding: 24px 16px;
+      border-right: 1px solid var(--line); background: #0d0f11;
+      display: flex; flex-direction: column;
+    }
+    .brand { font-weight: 850; letter-spacing: -.04em; font-size: 23px; padding: 4px 10px 24px; }
+    .brand i { font-style: normal; color: var(--accent); }
+    .brand small { display: block; margin-top: 6px; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .nav { display: grid; gap: 4px; }
+    .nav button, .rail-action {
+      width: 100%; border: 0; background: transparent; color: var(--muted); text-align: left;
+      padding: 11px 12px; border-radius: 8px; transition: .16s ease;
+    }
+    .nav button:hover, .nav button.active, .rail-action:hover { background: #1a1d20; color: var(--text); }
+    .nav button.active { box-shadow: inset 2px 0 0 var(--accent); }
+    .rail-footer { margin-top: auto; display: grid; gap: 10px; }
+    .user-chip { border-top: 1px solid var(--line); padding-top: 16px; }
+    .user-chip strong { display: block; font-size: 14px; }
+    .user-chip span { color: var(--muted); font-size: 12px; }
 
-      .auth-card {
-        width: min(420px, 100%);
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 20px 60px #0006;
-      }
+    .main { min-width: 0; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; height: 72px; padding: 0 30px;
+      border-bottom: 1px solid var(--line); background: rgba(17,19,21,.92); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-left h1 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+    .topbar-left p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .icon-btn { position: relative; width: 38px; height: 38px; border: 1px solid var(--line); background: var(--panel); color: var(--soft); border-radius: 9px; }
+    .badge-dot { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--warning); border: 1px solid var(--bg); }
 
-      .auth-brand {
-        padding: 0 0 24px;
-        text-align: center;
-      }
+    .content { padding: 30px; max-width: 1440px; margin: 0 auto; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .eyebrow { color: var(--accent); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .18em; }
+    .page-title { font-size: 30px; letter-spacing: -.045em; margin: 8px 0 8px; }
+    .subtle { color: var(--muted); line-height: 1.65; }
 
-      .auth-tabs {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 6px;
-        padding: 5px;
-        margin-bottom: 22px;
-        background: var(--panel2);
-        border-radius: 10px;
-      }
+    /* Cards */
+    .grid { display: grid; gap: 16px; }
+    .grid-12 { grid-template-columns: repeat(12, minmax(0,1fr)); }
+    .span-8 { grid-column: span 8; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-12 { grid-column: 1 / -1; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.12);
+    }
+    .card h2, .card h3 { margin: 0; letter-spacing: -.025em; }
+    .card h2 { font-size: 20px; }
+    .card h3 { font-size: 15px; }
+    .rule { height: 1px; background: var(--line); margin: 18px 0; }
 
-      .auth-tab {
-        border: 0;
-        background: transparent;
-        padding: 10px;
-        border-radius: 8px;
-        color: var(--muted);
-      }
+    /* Buttons / forms */
+    .btn { border: 1px solid var(--line); background: var(--panel2); color: var(--text); padding: 10px 14px; border-radius: 8px; font-weight: 750; }
+    .btn:hover { border-color: #4b535a; }
+    .btn-primary { background: var(--accent); color: #17120a; border-color: var(--accent); }
+    .btn-danger { color: #ffd2d2; border-color: #633a3a; background: #2b1b1d; }
+    .btn-quiet { background: transparent; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .field { display:grid; gap:7px; }
+    .field label { color: var(--soft); font-size: 12px; font-weight: 700; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: #121518; color: var(--text); border:1px solid var(--line); border-radius:8px; padding:11px 12px; outline: none;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+    .field textarea { min-height: 140px; resize: vertical; }
+    .form-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; }
 
-      .auth-tab.active {
-        background: var(--panel);
-        color: var(--text);
-      }
+    /* Dashboard */
+    .hero {
+      min-height: 285px; display:flex; flex-direction:column; justify-content:space-between;
+      background: linear-gradient(180deg, #1d2226, #171a1d);
+    }
+    .hero h2 { font-size: 32px; max-width: 700px; margin-top: 8px; }
+    .hero .focus { font-size: 14px; color: var(--soft); line-height: 1.7; max-width: 780px; margin: 10px 0 0; }
+    .meta-line { display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+    .meta-tag { border:1px solid var(--line); padding:5px 8px; border-radius:6px; }
+    .progress-track { height: 8px; background:#101214; border-radius:99px; overflow:hidden; }
+    .progress-track i { display:block; height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    .stat-grid { display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+    .stat { border:1px solid var(--line); padding:14px; border-radius:9px; background:#15181b; }
+    .stat strong { display:block; font-size:24px; letter-spacing:-.03em; }
+    .stat span { color:var(--muted); font-size:11px; }
 
-      .auth-field {
-        margin-bottom: 15px;
-      }
+    .list { display:grid; gap:8px; }
+    .list-row { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); padding:12px 0; }
+    .list-row:last-child { border-bottom:0; }
+    .list-row strong { font-size:13px; }
+    .list-row span { display:block; color:var(--muted); font-size:11px; margin-top:3px; }
 
-      .auth-field.hidden {
-        display: none;
-      }
+    /* Roadmap */
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:18px 0; }
+    .toolbar .grow { flex:1; }
+    .filter.active { background:var(--accent); color:#17120a; border-color:var(--accent); }
+    .roadmap-day { border:1px solid var(--line); border-radius:10px; padding:15px; background:#171a1d; }
+    .roadmap-day.today { border-color:#8d722f; box-shadow: inset 3px 0 0 var(--accent); }
+    .roadmap-day.completed { opacity:.72; }
+    .roadmap-top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+    .day-date { font-weight:800; font-size:13px; }
+    .day-title { margin-top:7px; font-weight:750; }
+    .day-meta, .day-details { color:var(--muted); font-size:12px; line-height:1.5; margin-top:6px; }
+    .status { display:inline-flex; margin-left:7px; font-size:10px; padding:3px 6px; border:1px solid var(--line); border-radius:5px; vertical-align:2px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+    .status.today { color:var(--accent); border-color:#8d722f; }
+    .status.completed { color:var(--success); border-color:#365c4e; }
+    .status.missed { color:var(--warning); border-color:#6a4a2d; }
+    .status.upcoming { color:var(--muted); }
+    .week-head { margin:22px 0 8px; display:flex; justify-content:space-between; align-items:center; }
+    .week-head strong { font-size:14px; }
+    .week-head span { color:var(--muted); font-size:11px; }
 
-      .auth-field label {
-        display: block;
-        margin-bottom: 7px;
-        font-size: 13px;
-        color: var(--muted);
-      }
+    /* Calendar */
+    .calendar-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+    .calendar-head h2 { font-size:18px; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); border-top:1px solid var(--line); border-left:1px solid var(--line); }
+    .calendar-cell { min-height:105px; padding:10px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); background:#15181b; }
+    .calendar-cell.head { min-height:auto; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
+    .calendar-cell.outside { opacity:.35; }
+    .cal-num { font-weight:800; font-size:12px; }
+    .cal-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--muted); margin-left:5px; vertical-align:1px; }
+    .cal-dot.done { background:var(--success); }
+    .cal-dot.today { background:var(--accent); }
+    .cal-title { color:var(--soft); font-size:11px; line-height:1.4; margin-top:8px; }
+    .cal-open { margin-top:7px; font-size:10px; color:var(--accent-2); }
 
-      .auth-field input {
-        width: 100%;
-        padding: 12px 13px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: var(--panel2);
-        color: var(--text);
-        outline: none;
-      }
+    /* Notes */
+    .note-layout { display:grid; grid-template-columns: 320px minmax(0,1fr); gap:16px; }
+    .note-list { max-height:610px; overflow:auto; }
+    .note-item { width:100%; text-align:left; border:1px solid transparent; background:transparent; color:var(--text); padding:12px; border-radius:8px; }
+    .note-item:hover, .note-item.active { background:#202428; border-color:var(--line); }
+    .note-item strong { display:block; font-size:12px; }
+    .note-item span { display:block; color:var(--muted); font-size:11px; margin-top:3px; }
 
-      .auth-field input:focus {
-        border-color: var(--accent);
-      }
+    /* Charts */
+    .chart-wrap { min-height:280px; position:relative; }
+    .chart-wrap canvas { width:100%; height:280px; display:block; }
+    .legend { display:flex; gap:15px; flex-wrap:wrap; color:var(--muted); font-size:11px; }
 
-      .auth-submit {
-        width: 100%;
-        margin-top: 5px;
-      }
+    /* Projects */
+    .project-card { display:grid; gap:12px; }
+    .project-main { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+    .project-links { display:flex; gap:10px; flex-wrap:wrap; font-size:11px; }
+    .project-links a { color:var(--accent-2); text-decoration:none; }
+    .project-links a:hover { text-decoration:underline; }
+    .slider-row { display:grid; grid-template-columns:1fr 55px; gap:10px; align-items:center; }
+    input[type="range"] { width:100%; accent-color:var(--accent); }
 
-      .auth-message {
-        min-height: 20px;
-        margin: 12px 0 0;
-        color: var(--muted);
-        font-size: 13px;
-        text-align: center;
-      }
-      .app {
-        display: flex;
-        min-height: 100vh;
-      }
-      .sidebar {
-        width: 245px;
-        border-right: 1px solid var(--border);
-        padding: 24px 16px;
-        background: #0b0f17;
-        position: fixed;
-        inset: 0 auto 0 0;
-      }
-      .brand {
-        font-size: 21px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        padding: 8px 10px 28px;
-      }
-      .brand span {
-        color: var(--accent);
-      }
-      .nav button {
-        display: block;
-        width: 100%;
-        border: 0;
-        background: transparent;
-        text-align: left;
-        padding: 12px 13px;
-        border-radius: 10px;
-        color: var(--muted);
-        margin: 4px 0;
-      }
-      .nav button.active,
-      .nav button:hover {
-        background: var(--panel2);
-        color: var(--text);
-      }
-      .main {
-        margin-left: 245px;
-        width: calc(100% - 245px);
-        padding: 30px;
-        max-width: 1250px;
-      }
-      .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 28px;
-      }
-      .eyebrow {
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--accent);
-        font-weight: 700;
-      }
-      .top h1 {
-        margin: 6px 0 0;
-        font-size: 31px;
-        letter-spacing: -1px;
-      }
-      .date {
-        color: var(--muted);
-        font-size: 14px;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: 1.4fr 0.8fr;
-        gap: 18px;
-      }
-      .card {
-        background: linear-gradient(145deg, var(--panel), #0d121b);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: 0 12px 35px #0002;
-      }
-      .hero {
-        min-height: 265px;
-      }
-      .hero h2 {
-        font-size: 27px;
-        margin: 8px 0 14px;
-      }
-      .hero p {
-        color: #b8c1d0;
-        line-height: 1.6;
-      }
-      .tag {
-        display: inline-block;
-        background: #18352f;
-        color: var(--accent);
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-      .actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 22px;
-      }
-      .primary {
-        border: 0;
-        background: var(--accent);
-        color: #07110f;
-        padding: 11px 16px;
-        border-radius: 10px;
-        font-weight: 800;
-      }
-      .secondary {
-        border: 1px solid var(--border);
-        background: var(--panel2);
-        padding: 11px 16px;
-        border-radius: 10px;
-      }
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-top: 18px;
-      }
-      .stat {
-        padding: 17px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-      }
-      .stat b {
-        display: block;
-        font-size: 25px;
-      }
-      .stat span {
-        color: var(--muted);
-        font-size: 12px;
-      }
-      .loading-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(8, 11, 18, 0.78);
-        backdrop-filter: blur(4px);
-      }
+    /* Achievements */
+    .achievement-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+    .achievement { border:1px solid var(--line); padding:14px; border-radius:9px; background:#15181b; min-height:150px; }
+    .achievement.locked { opacity:.38; filter:saturate(.3); }
+    .achievement-icon { font-size:25px; }
+    .achievement strong { display:block; margin-top:8px; font-size:12px; }
+    .achievement p { color:var(--muted); font-size:11px; line-height:1.5; }
+    .achievement small { color:var(--success); font-size:10px; }
 
-      .loading-overlay.hidden {
-        display: none;
-      }
+    /* Notifications */
+    .notice { border:1px solid var(--line); padding:13px; border-radius:8px; background:#171a1d; }
+    .notice.unread { border-color:#705d31; }
+    .notice strong { font-size:12px; }
+    .notice p { margin:5px 0; color:var(--soft); font-size:12px; line-height:1.5; }
+    .notice small { color:var(--muted); }
 
-      .loading-card {
-        min-width: 230px;
-        padding: 24px;
-        text-align: center;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        box-shadow: 0 20px 60px #0006;
-      }
+    /* Auth */
+    .auth-screen { min-height:100vh; display:grid; place-items:center; padding:24px; background:#0d0f11; }
+    .auth-shell { width:min(440px,100%); }
+    .auth-mark { margin-bottom:24px; }
+    .auth-panel { border:1px solid var(--line); background:var(--panel); padding:25px; border-radius:12px; box-shadow:var(--shadow); }
+    .auth-tabs { display:flex; gap:4px; padding:4px; background:#111416; border:1px solid var(--line); border-radius:8px; margin-bottom:20px; }
+    .auth-tabs button { flex:1; border:0; background:transparent; color:var(--muted); padding:9px; border-radius:6px; }
+    .auth-tabs button.active { background:#24292d; color:var(--text); }
+    .auth-links { display:flex; justify-content:space-between; gap:10px; margin-top:12px; }
+    .link-btn { border:0; background:transparent; color:var(--accent-2); padding:0; }
+    .auth-message { min-height:20px; color:var(--muted); font-size:12px; margin-top:12px; }
 
-      .spinner {
-        width: 32px;
-        height: 32px;
-        margin: 0 auto 14px;
-        border: 3px solid var(--border);
-        border-top-color: var(--accent);
-        border-radius: 50%;
-        animation: devtrack-spin 0.8s linear infinite;
-      }
+    /* Drawer / modal */
+    .overlay { position:fixed; inset:0; z-index:80; background:rgba(0,0,0,.62); display:grid; place-items:center; padding:20px; }
+    .modal { width:min(560px,100%); background:var(--panel); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); padding:22px; }
+    .modal-head { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:14px; }
+    .toast { position:fixed; right:20px; bottom:20px; z-index:100; min-width:250px; max-width:400px; border:1px solid var(--line); background:#16191b; color:var(--text); padding:12px 14px; border-radius:9px; box-shadow:var(--shadow); }
+    .toast.success { border-color:#365c4e; }
+    .toast.error { border-color:#633a3a; }
 
-      .loading-card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 13px;
-      }
+    /* Admin */
+    .table-wrap { overflow:auto; }
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th, td { padding:10px 8px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; }
+    th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
 
-      @keyframes devtrack-spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .bar {
-        height: 9px;
-        background: #202938;
-        border-radius: 99px;
-        overflow: hidden;
-      }
-      .bar i {
-        display: block;
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        border-radius: 99px;
-      }
-      .section {
-        margin-top: 18px;
-      }
-      .section h3 {
-        margin: 0 0 12px;
-        font-size: 17px;
-      }
-      .roadmap {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-      .phase {
-        padding: 17px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-      }
-      .phase small {
-        color: var(--muted);
-      }
-      .phase strong {
-        display: block;
-        margin: 7px 0 10px;
-      }
-      .progressrow {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 7px;
-      }
-      .project {
-        margin-top: 18px;
-      }
-      .projectrow {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .projectrow:last-child {
-        border-bottom: 0;
-      }
-      .projectrow span {
-        color: var(--muted);
-        font-size: 13px;
-      }
-      .view {
-        display: none;
-      }
-      .view.active {
-        display: block;
-      }
-      .list {
-        display: grid;
-        gap: 10px;
-      }
-      .dayitem {
-        padding: 16px;
-        border: 1px solid var(--border);
-        background: var(--panel);
-        border-radius: 13px;
-        display: grid;
-        grid-template-columns: 105px 1fr auto;
-        gap: 15px;
-        align-items: center;
-      }
-      .dayitem.done {
-        opacity: 0.58;
-      }
-      .dayitem .d {
-        font-weight: 800;
-      }
-      .dayitem small {
-        display: block;
-        color: var(--muted);
-        margin-top: 4px;
-      }
-      .logout-btn {
-        display: block;
-        width: 100%;
-        margin-top: 18px;
-        padding: 12px 13px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: transparent;
-        color: var(--muted);
-        text-align: left;
-      }
-
-      .roadmap-filters {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin: 18px 0;
-      }
-
-      .roadmap-filter {
-        border: 1px solid var(--border);
-        background: var(--panel2);
-        color: var(--muted);
-        padding: 9px 13px;
-        border-radius: 9px;
-      }
-
-      .roadmap-filter:hover,
-      .roadmap-filter.active {
-        background: var(--accent);
-        color: #07110f;
-        border-color: var(--accent);
-      }
-
-      .roadmap-day {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 16px;
-        margin-top: 10px;
-      }
-
-      .roadmap-day.today {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 1px #55d6be22;
-      }
-
-      .roadmap-day.completed {
-        opacity: 0.68;
-      }
-
-      .roadmap-day-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 15px;
-      }
-
-      .roadmap-day-info {
-        flex: 1;
-      }
-
-      .roadmap-day-date {
-        font-weight: 800;
-        margin-bottom: 5px;
-      }
-
-      .roadmap-day-meta {
-        color: var(--muted);
-        font-size: 12px;
-      }
-
-      .roadmap-day-title {
-        margin-top: 10px;
-        font-weight: 700;
-      }
-
-      .roadmap-day-details {
-        margin-top: 8px;
-        color: #b8c1d0;
-        line-height: 1.5;
-        font-size: 13px;
-      }
-
-      .roadmap-day-action {
-        border: 1px solid var(--border);
-        background: var(--panel2);
-        padding: 9px 12px;
-        border-radius: 9px;
-        white-space: nowrap;
-      }
-
-      .roadmap-day-action.complete {
-        background: var(--accent);
-        color: #07110f;
-        border-color: var(--accent);
-        font-weight: 800;
-      }
-
-      .roadmap-day-action:hover {
-        opacity: 0.9;
-      }
-
-      .roadmap-week-heading {
-        margin: 24px 0 8px;
-        font-size: 16px;
-      }
-
-      .roadmap-week-heading:first-child {
-        margin-top: 8px;
-      }
-
-      .roadmap-status {
-        display: inline-block;
-        margin-left: 7px;
-        padding: 3px 7px;
-        border-radius: 999px;
-        font-size: 10px;
-        font-weight: 800;
-        vertical-align: middle;
-      }
-
-      .catchup-highlight {
-  border-color: #ffb27a;
-}
-
-#catchUpCard {
-  border-color: #5b3d2c;
-}
-
-      .roadmap-status.today {
-        background: #18352f;
-        color: var(--accent);
-      }
-
-      .roadmap-status.completed {
-        background: #23302d;
-        color: var(--accent);
-      }
-
-      .roadmap-status.pending {
-        background: var(--panel2);
-        color: var(--muted);
-      }
-
-      .logout-btn:hover {
-        background: var(--panel2);
-        color: var(--text);
-      }
-      .check {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        border: 1px solid #354154;
-        background: transparent;
-      }
-      .check.done {
-        background: var(--accent);
-        color: #06100e;
-        border-color: var(--accent);
-      }
-      .roadmapFull {
-        display: grid;
-        gap: 12px;
-      }
-      .week {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 17px;
-      }
-      .week h4 {
-        margin: 0 0 6px;
-      }
-
-      .roadmap-status.missed {
-        background: #33261f;
-        color: #ffb27a;
-      }
-
-      .roadmap-status.upcoming {
-        background: var(--panel2);
-        color: var(--muted);
-      }
-      .week p {
-        margin: 4px 0;
-        color: var(--muted);
-        font-size: 13px;
-      }
-      .settings {
-        color: var(--muted);
-        line-height: 1.7;
-      }
-      .reset {
-        margin-top: 20px;
-        border: 1px solid #4a2930;
-        background: #25141a;
-        color: #ff9ba2;
-        padding: 10px 14px;
-        border-radius: 9px;
-      }
-      @media (max-width: 850px) {
-        .sidebar {
-          position: static;
-          width: 100%;
-          height: auto;
-          border-right: 0;
-          border-bottom: 1px solid var(--border);
-        }
-        .app {
-          display: block;
-        }
-        .main {
-          margin: 0;
-          width: 100%;
-          padding: 20px;
-        }
-        .nav {
-          display: flex;
-          gap: 6px;
-          overflow: auto;
-        }
-        .nav button {
-          white-space: nowrap;
-        }
-        .grid {
-          grid-template-columns: 1fr;
-        }
-        .roadmap {
-          grid-template-columns: 1fr 1fr;
-        }
-        .dayitem {
-          grid-template-columns: 75px 1fr auto;
-        }
-      }
-      @media (max-width: 520px) {
-        .stats,
-        .roadmap {
-          grid-template-columns: 1fr;
-        }
-        .top h1 {
-          font-size: 25px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="loadingOverlay" class="loading-overlay hidden">
-      <div class="loading-card">
-        <div class="spinner"></div>
-        <p id="loadingText">Connecting to DevTrack...</p>
-      </div>
+    @media (max-width: 1050px) {
+      .grid-12 { grid-template-columns:repeat(6,minmax(0,1fr)); }
+      .span-8 { grid-column:span 6; }
+      .span-4, .span-6 { grid-column:span 3; }
+      .achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width: 760px) {
+      .shell { display:block; }
+      .rail { position:sticky; height:auto; padding:10px; z-index:30; border-right:0; border-bottom:1px solid var(--line); }
+      .brand { display:flex; align-items:center; justify-content:space-between; padding:6px 8px 12px; }
+      .brand small { margin:0; }
+      .nav { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .nav button { font-size:11px; padding:9px 8px; }
+      .rail-footer { display:none; }
+      .topbar { height:64px; padding:0 16px; }
+      .content { padding:18px 14px; }
+      .grid-12 { grid-template-columns:1fr; }
+      .span-8,.span-4,.span-6,.span-12 { grid-column:1; }
+      .note-layout { grid-template-columns:1fr; }
+      .calendar-cell { min-height:78px; padding:7px; }
+      .cal-title { display:none; }
+      .roadmap-top { display:block; }
+      .roadmap-top .btn { margin-top:10px; }
+      .form-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loadingOverlay" class="overlay hidden">
+    <div class="modal" style="width:min(360px,100%);text-align:center">
+      <div class="eyebrow">DevTrack</div>
+      <h2 id="loadingTitle" style="margin-top:8px">Working…</h2>
+      <p id="loadingText" class="subtle">Connecting to your workspace.</p>
+      <div class="progress-track" style="margin-top:18px"><i id="loadingBar" style="width:35%"></i></div>
     </div>
-    <div id="authScreen" class="auth-screen">
-      <div class="auth-card">
-        <div class="brand auth-brand">Dev<span>Track</span></div>
+  </div>
 
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-shell">
+      <div class="brand auth-mark">Dev<i>Track</i><small>developer training workspace</small></div>
+      <div class="auth-panel">
         <div class="auth-tabs">
-          <button id="loginTab" class="auth-tab active">Login</button>
-          <button id="registerTab" class="auth-tab">Register</button>
+          <button id="loginTab" class="active" type="button">Log in</button>
+          <button id="registerTab" type="button">Create account</button>
         </div>
-
-        <form id="authForm">
-          <div id="nameField" class="auth-field hidden">
-            <label for="authName">Name</label>
-            <input id="authName" type="text" placeholder="Your name" />
-          </div>
-
-          <div class="auth-field">
-            <label for="authEmail">Email</label>
-            <input
-              id="authEmail"
-              type="email"
-              required
-              placeholder="you@example.com"
-            />
-          </div>
-
-          <div id="usernameField" class="auth-field hidden">
-            <label for="authUsername">Username</label>
-            <input id="authUsername" type="text" placeholder="yourusername" />
-          </div>
-
-          <div class="auth-field">
-            <label for="authPassword">Password</label>
-            <input
-              id="authPassword"
-              type="password"
-              required
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button class="primary auth-submit" type="submit" id="authSubmit">
-            Login
-          </button>
-
-          <p id="authMessage" class="auth-message"></p>
+        <form id="authForm" class="grid">
+          <div id="nameField" class="field hidden"><label for="authName">Name</label><input id="authName" autocomplete="name"></div>
+          <div id="usernameField" class="field hidden"><label for="authUsername">Username</label><input id="authUsername" autocomplete="username"></div>
+          <div class="field"><label for="authEmail">Email</label><input id="authEmail" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="authPassword">Password</label><input id="authPassword" type="password" required minlength="8" autocomplete="current-password"></div>
+          <button id="authSubmit" class="btn btn-primary" type="submit">Log in</button>
+          <div class="auth-links"><button id="forgotLink" class="link-btn" type="button">Forgot password?</button><span></span></div>
+          <div id="authMessage" class="auth-message"></div>
         </form>
       </div>
     </div>
-    <div class="app">
-      <aside class="sidebar">
-        <div class="brand">Dev<span>Track</span></div>
-        <nav class="nav">
-          <button class="active" data-view="dashboard">⌂ Dashboard</button>
-          <button data-view="today">✓ Today</button>
-          <button data-view="roadmap">▦ Roadmap</button>
-          <button data-view="progress">◔ Progress</button>
-          <button data-view="projects">◆ Projects</button>
-        </nav>
-        <button id="logoutBtn" class="logout-btn">↪ Logout</button>
-      </aside>
-      <main class="main">
-        <div class="top">
-          <div>
-            <div class="eyebrow">Developer training</div>
-            <h1 id="title">Good morning.</h1>
-          </div>
-          <div class="date" id="todayDate"></div>
+  </section>
+
+  <div id="app" class="shell hidden">
+    <aside class="rail">
+      <div class="brand">Dev<i>Track</i><small>developer training workspace</small></div>
+      <nav id="nav" class="nav">
+        <button class="active" data-view="dashboard">Dashboard</button>
+        <button data-view="today">Today</button>
+        <button data-view="roadmap">Roadmap</button>
+        <button data-view="calendar">Calendar</button>
+        <button data-view="progress">Progress</button>
+        <button data-view="projects">Projects</button>
+        <button data-view="notes">Notes</button>
+        <button data-view="achievements">Achievements</button>
+        <button data-view="settings">Settings</button>
+        <button id="adminNav" class="hidden" data-view="admin">Admin</button>
+      </nav>
+      <div class="rail-footer">
+        <div id="userChip" class="user-chip"></div>
+        <button id="logoutBtn" class="rail-action">Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="pageHeading">Dashboard</h1>
+          <p id="pageSubheading">Keep the next useful step obvious.</p>
         </div>
+        <div class="top-actions">
+          <button id="notificationBtn" class="icon-btn" title="Notifications">◌<span id="notificationDot" class="badge-dot hidden"></span></button>
+        </div>
+      </header>
 
-        <section id="dashboard" class="view active">
-          <div class="grid">
-            <div class="card hero">
-              <span class="tag" id="todayPhase">Today</span>
-              <h2 id="todayTitle">Loading…</h2>
-              <p id="todayDesc"></p>
-              <div class="bar"><i id="mainBar"></i></div>
-              <div class="actions">
-                <button class="primary" id="completeBtn">
-                  Mark today complete
-                </button>
-                <button class="secondary" onclick="showView('today')">
-                  Open today's plan
-                </button>
-              </div>
-            </div>
-            <div class="card">
-              <div class="eyebrow">Your momentum</div>
-              <div class="stats" style="grid-template-columns: 1fr">
-                <div class="stat">
-                  <b id="overall">0%</b><span>roadmap complete</span>
-                </div>
-                <div class="stat">
-                  <b id="streak">0 🔥</b><span>day streak</span>
-                </div>
-                <div class="stat">
-                  <b id="hours">0h</b><span>planned hours completed</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-  class="section card"
-  id="catchUpCard"
-  style="display:none"
->
-  <div class="eyebrow">Catch up</div>
-
-  <h3 id="catchUpTitle">
-    Yesterday's lesson
-  </h3>
-
-  <p
-    id="catchUpInfo"
-    class="settings"
-  ></p>
-
-  <div class="actions">
-    <button
-      class="primary"
-      id="catchUpComplete"
-    >
-      Mark complete
-    </button>
-
-    <button
-      class="secondary"
-      id="catchUpRoadmap"
-    >
-      Open roadmap
-    </button>
+      <div class="content">
+        <section id="dashboard" class="view active"></section>
+        <section id="today" class="view"></section>
+        <section id="roadmap" class="view"></section>
+        <section id="calendar" class="view"></section>
+        <section id="progress" class="view"></section>
+        <section id="projects" class="view"></section>
+        <section id="notes" class="view"></section>
+        <section id="achievements" class="view"></section>
+        <section id="settings" class="view"></section>
+        <section id="admin" class="view"></section>
+      </div>
+    </main>
   </div>
-</div>
-          <div class="section card">
-            <h3>Roadmap at a glance</h3>
-            <div class="roadmap" id="phaseCards"></div>
-          </div>
-          <div class="section card project">
-            <h3>Portfolio projects</h3>
-            <div class="project" id="dashboardProjects"></div>
-          </div>
-        </section>
 
-        <section id="today" class="view">
-          <div class="card hero">
-            <span class="tag" id="todayTag"></span>
-            <h2 id="fullTodayTitle"></h2>
-            <p id="fullTodayFocus"></p>
-            <h3>Practice / Build</h3>
-            <p id="fullTodayPractice"></p>
-            <h3>Project target</h3>
-            <p id="fullTodayProject"></p>
-            <div class="actions">
-              <button class="primary" id="todayComplete">Mark complete</button>
-            </div>
-          </div>
-        </section>
-
-        <section id="roadmap" class="view">
-          <div class="card">
-            <div class="eyebrow">153 days · day by day</div>
-            <h2>Roadmap</h2>
-
-            <p class="settings">
-              Work through the roadmap one day at a time. You can complete
-              today's lesson, go back to a previous day, or work ahead.
-            </p>
-
-            <div class="roadmap-filters">
-              <button class="roadmap-filter active" data-filter="all">
-                All
-              </button>
-
-              <button class="roadmap-filter" data-filter="today">Today</button>
-
-              <button class="roadmap-filter" data-filter="completed">
-                Completed
-              </button>
-
-              <button class="roadmap-filter" data-filter="pending">
-                Pending
-              </button>
-            </div>
-
-            <div id="weeks"></div>
-          </div>
-        </section>
-
-        <section id="progress" class="view">
-          <div class="card">
-            <div class="eyebrow">Your progress</div>
-            <h2>Keep moving.</h2>
-            <div id="progressContent"></div>
-            <button
-  id="resetProgressBtn"
-  class="reset"
->
-  Reset my progress
-</button>
-          </div>
-        </section>
-
-        <section id="projects" class="view">
-          <div class="card">
-            <div class="eyebrow">Build proof</div>
-            <h2>Portfolio projects</h2>
-            <p class="settings">
-              The projects are deliberately aligned with the skills you're
-              learning. Your goal is not just to finish lessons — it's to finish
-              software you can show a client.
-            </p>
-            <div id="projectsList"></div>
-          </div>
-        </section>
-      </main>
+  <div id="notificationPanel" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head"><div><div class="eyebrow">Inbox</div><h2>Notifications</h2></div><button id="closeNotifications" class="icon-btn">×</button></div>
+      <div id="notificationList" class="list"></div>
     </div>
-    <script type="module">
-      import { apiRequest } from "./api.js";
-      let DAYS = [];
-      let completions = [];
-      function formatDate(value, options = {}) {
-        const date = new Date(value);
+  </div>
 
-        if (Number.isNaN(date.getTime())) {
-          return "Invalid Date";
-        }
+  <div id="forgotModal" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head"><div><div class="eyebrow">Account access</div><h2>Reset your password</h2></div><button class="icon-btn" data-close="forgotModal">×</button></div>
+      <form id="forgotForm" class="grid">
+        <div class="field"><label for="forgotEmail">Account email</label><input id="forgotEmail" type="email" required></div>
+        <button class="btn btn-primary" type="submit">Send reset link</button>
+        <p id="forgotMessage" class="subtle"></p>
+      </form>
+    </div>
+  </div>
 
-        return date.toLocaleDateString(undefined, options);
-      }
-      async function loadCompletions() {
-        try {
-          const response = await apiRequest("/completions");
-          completions = response.data;
+  <div id="resetModal" class="overlay hidden">
+    <div class="modal">
+      <div class="modal-head"><div><div class="eyebrow">Account access</div><h2>Choose a new password</h2></div></div>
+      <form id="resetForm" class="grid">
+        <div class="field"><label for="resetPassword">New password</label><input id="resetPassword" type="password" minlength="8" required></div>
+        <button class="btn btn-primary" type="submit">Set new password</button>
+        <p id="resetMessage" class="subtle"></p>
+      </form>
+    </div>
+  </div>
 
-          console.log(`✅ Loaded ${completions.length} completions from API`);
-        } catch (error) {
-          console.error("❌ Failed to load completions:", error);
-        }
-      }
+  <div id="toast" class="toast hidden"></div>
 
-      function isCompleted(studyDayId) {
-        return completions.some(
-          (completion) => completion.studyDayId === studyDayId,
-        );
-      }
+  <script type="module">
+    import { apiRequest } from './api.js';
 
-      async function toggleCompletion(
-  studyDayId
-) {
-  try {
-    showLoading(
-      isCompleted(studyDayId)
-        ? "Updating completion..."
-        : "Saving completion..."
-    );
+    const state = {
+      view: 'dashboard',
+      authMode: 'login',
+      user: null,
+      days: [],
+      completions: [],
+      progress: null,
+      projects: [],
+      calendar: [],
+      notes: [],
+      achievements: [],
+      notifications: [],
+      preferences: null,
+      analytics: null,
+      roadmapFilter: 'all',
+      calendarCursor: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      selectedNoteDayId: null,
+      admin: { overview: null, users: [], activity: [] },
+    };
 
-    if (isCompleted(studyDayId)) {
-      await apiRequest(
-        `/completions/${studyDayId}`,
-        {
-          method: "DELETE",
-        }
-      );
-    } else {
-      await apiRequest(
-        `/completions/${studyDayId}`,
-        {
-          method: "POST",
-        }
-      );
+    const $ = (id) => document.getElementById(id);
+    const iso = (value) => new Date(value).toISOString().slice(0, 10);
+    const todayIso = iso(new Date());
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[c]);
+    const stripPrefix = (value) => String(value || '').replace(/^Learn: |^Practice: |^Build: /, '');
+    const formatDate = (value, options = {}) => new Date(value).toLocaleDateString(undefined, options);
+    const showToast = (message, type = '') => { const el=$('toast'); el.textContent=message; el.className=`toast ${type}`; setTimeout(()=>el.classList.add('hidden'), 2600); };
+
+    function setLoading(on, title='Working…', text='Updating your DevTrack workspace.') {
+      $('loadingTitle').textContent = title;
+      $('loadingText').textContent = text;
+      $('loadingOverlay').classList.toggle('hidden', !on);
     }
 
-    await loadCompletions();
-    await loadProgress();
-
-    render();
-
-  } catch (error) {
-    console.error(
-      "❌ Failed to update completion:",
-      error
-    );
-
-    alert(
-      error.message ||
-      "Failed to update completion"
-    );
-  } finally {
-    hideLoading();
-  }
-}
-      async function loadStudyDays() {
-        try {
-          const response = await apiRequest("/study-days");
-
-          DAYS = response.data.map((day) => ({
-            id: day.id,
-            date: day.date,
-            day: new Date(day.date).toLocaleDateString(undefined, {
-              weekday: "long",
-            }),
-            week: `Week ${day.week}`,
-            phase: day.phase,
-            focus: day.focus,
-            practice: day.practice,
-            project: day.projectTarget,
-            hours: day.hours,
-          }));
-
-          console.log(`✅ Loaded ${DAYS.length} study days from API`);
-        } catch (error) {
-          console.error("❌ Failed to load study days:", error);
-        }
-      }
-      const iso = (value) => new Date(value).toISOString().slice(0, 10);
-      const todayIso = iso(new Date());
-
-      function currentIndex() {
-        const index = DAYS.findIndex((day) => iso(day.date) === todayIso);
-
-        return index >= 0 ? index : 0;
-      }
-      let projects = [];
-
-      async function loadProjects() {
-        try {
-          const response = await apiRequest("/projects");
-          projects = response.data;
-
-          console.log(`✅ Loaded ${projects.length} projects from API`);
-        } catch (error) {
-          console.error("❌ Failed to load projects:", error);
-        }
-      }
-
-      function logout() {
-        localStorage.removeItem("devtrack_token");
-
-        completions = [];
-        projects = [];
-        DAYS = [];
-
-        document.getElementById("authScreen").classList.remove("hidden");
-
-        setAuthMode("login");
-
-        document.getElementById("authForm").reset();
-
-        console.log("✅ Logged out");
-      }
-
-      document.getElementById("logoutBtn").addEventListener("click", logout);
-      function showLoading(message = "Loading DevTrack...") {
-        const overlay = document.getElementById("loadingOverlay");
-
-        const text = document.getElementById("loadingText");
-
-        text.textContent = message;
-        overlay.classList.remove("hidden");
-      }
-
-      function hideLoading() {
-        document.getElementById("loadingOverlay").classList.add("hidden");
-      }
-      async function updateProjectProgress(projectId, progress) {
-        try {
-          showLoading("Saving project progress...");
-
-          await apiRequest(`/projects/${projectId}/progress`, {
-            method: "PATCH",
-            body: JSON.stringify({ progress }),
-          });
-
-          await loadProjects();
-          await loadProgress();
-
-          renderProjects();
-          render();
-
-          console.log(
-            `✅ Project ${projectId} progress updated to ${progress}%`,
-          );
-        } catch (error) {
-          console.error("❌ Failed to update project progress:", error);
-        } finally {
-          hideLoading();
-        }
-      }
-
-      function renderProjects() {
-        const dashboardProjects = document.getElementById("dashboardProjects");
-
-        const projectsList = document.getElementById("projectsList");
-
-        if (!projects.length) {
-          dashboardProjects.innerHTML =
-            "<p class='settings'>No projects found.</p>";
-
-          projectsList.innerHTML = "<p class='settings'>No projects found.</p>";
-
-          return;
-        }
-
-        // Dashboard project cards
-        dashboardProjects.innerHTML = projects
-          .map(
-            (project) => `
-        <div class="projectrow">
-          <div>
-            <b>${project.name}</b>
-            <span>${project.progress}% complete</span>
-          </div>
-          <b>→</b>
-        </div>
-      `,
-          )
-          .join("");
-
-        // Full projects page
-        projectsList.innerHTML = projects
-          .map(
-            (project) => `
-        <div class="projectrow">
-          <div style="flex:1">
-            <b>${project.name}</b>
-            <span>${project.description ?? ""}</span>
-
-            <div
-              class="bar"
-              style="margin-top:10px"
-            >
-              <i style="width:${project.progress}%"></i>
-            </div>
-
-            <div
-              style="
-                display:flex;
-                align-items:center;
-                gap:12px;
-                margin-top:12px;
-              "
-            >
-              <input
-                type="range"
-                min="0"
-                max="100"
-                step="5"
-                value="${project.progress}"
-                data-project-id="${project.id}"
-                class="project-slider"
-                style="flex:1"
-              >
-
-              <strong
-                class="project-progress-value"
-                style="min-width:45px;text-align:right"
-              >
-                ${project.progress}%
-              </strong>
-            </div>
-          </div>
-        </div>
-      `,
-          )
-          .join("");
-
-        // Attach listeners AFTER the sliders exist
-        document.querySelectorAll(".project-slider").forEach((slider) => {
-          const valueElement = slider.parentElement.querySelector(
-            ".project-progress-value",
-          );
-
-          // Update number instantly while dragging
-          slider.addEventListener("input", () => {
-            valueElement.textContent = `${slider.value}%`;
-          });
-
-          // Save to PostgreSQL when released
-          slider.addEventListener("change", async () => {
-            const projectId = Number(slider.dataset.projectId);
-
-            const progress = Number(slider.value);
-
-            await updateProjectProgress(projectId, progress);
-          });
-        });
-      }
-     function pct() {
-  return progressData.overallProgress || 0;
-}
-      let progressData = {
-        totalDays: 0,
-        completedDays: 0,
-        overallProgress: 0,
-        plannedHours: 0,
-        completedHours: 0,
-        currentStreak: 0,
-        longestStreak: 0,
-        weeklyProgress: [],
-        phaseProgress: [],
-        projectProgress: [],
-      };
-      function getYesterdayStudyDay() {
-  const yesterday = new Date();
-
-  yesterday.setDate(
-    yesterday.getDate() - 1
-  );
-
-  const yesterdayIso = iso(yesterday);
-
-  return DAYS.find(
-    (day) => iso(day.date) === yesterdayIso
-  );
-}
-
-function renderCatchUp() {
-  const card =
-    document.getElementById("catchUpCard");
-
-  const title =
-    document.getElementById("catchUpTitle");
-
-  const info =
-    document.getElementById("catchUpInfo");
-
-  const completeButton =
-    document.getElementById("catchUpComplete");
-
-  const roadmapButton =
-    document.getElementById("catchUpRoadmap");
-
-  const yesterday =
-    getYesterdayStudyDay();
-
-  if (
-    !yesterday ||
-    isCompleted(yesterday.id)
-  ) {
-    card.style.display = "none";
-    return;
-  }
-
-  card.style.display = "block";
-
-  title.textContent =
-    `Yesterday · ${formatDate(
-      yesterday.date,
-      {
-        weekday: "long",
-        month: "short",
-        day: "numeric",
-      }
-    )}`;
-
-  info.innerHTML = `
-    <strong>${yesterday.phase}</strong>
-    <br>
-    ${yesterday.focus.replace(
-      /^Learn: |^Practice: |^Build: /,
-      ""
-    )}
-    <br>
-    <span>
-      ${yesterday.hours} hours ·
-      ${yesterday.project}
-    </span>
-  `;
-
-  completeButton.onclick = async () => {
-    completeButton.disabled = true;
-
-    try {
-      await toggleCompletion(
-        yesterday.id
-      );
-    } finally {
-      completeButton.disabled = false;
+    function setAuthMode(mode) {
+      state.authMode = mode;
+      const login = mode === 'login';
+      $('loginTab').classList.toggle('active', login);
+      $('registerTab').classList.toggle('active', !login);
+      $('nameField').classList.toggle('hidden', login);
+      $('usernameField').classList.toggle('hidden', login);
+      $('authSubmit').textContent = login ? 'Log in' : 'Create account';
+      $('authMessage').textContent = '';
     }
-  };
 
-  roadmapButton.onclick = () => {
-    showView("roadmap");
-  };
-}
+    async function authSubmit(event) {
+      event.preventDefault();
+      const email = $('authEmail').value.trim();
+      const password = $('authPassword').value;
+      try {
+        $('authMessage').textContent = state.authMode === 'login' ? 'Signing in…' : 'Creating account…';
+        if (state.authMode === 'register') {
+          await apiRequest('/auth/register', { method:'POST', body:JSON.stringify({ name:$('authName').value.trim(), username:$('authUsername').value.trim(), email, password }) });
+          $('authMessage').textContent = 'Account created. Log in to continue.';
+          setAuthMode('login');
+          $('authPassword').value = '';
+          return;
+        }
+        const response = await apiRequest('/auth/login', { method:'POST', body:JSON.stringify({ email, password }) });
+        localStorage.setItem('devtrack_token', response.data.token);
+        await bootWorkspace();
+      } catch (error) { $('authMessage').textContent = error.message || 'Unable to sign in.'; }
+    }
 
-async function resetProgress() {
-  const confirmed = window.confirm(
-    "Reset all your completed study days?\n\n" +
-    "This will not delete the roadmap or projects."
-  );
+    async function bootWorkspace() {
+      setLoading(true, 'Loading workspace', 'Fetching your roadmap, progress and projects.');
+      try {
+        const me = await apiRequest('/auth/me');
+        state.user = me.data;
+        $('authScreen').classList.add('hidden');
+        $('app').classList.remove('hidden');
+        await Promise.all([loadDays(), loadCompletions(), loadProgress(), loadProjects(), loadCalendar(), loadNotes(), loadAchievements(), loadNotifications(), loadPreferences(), loadAnalytics()]);
+        await refreshAchievementsSilently();
+        renderShell();
+        renderAll();
+        handleResetQuery();
+      } catch (error) {
+        localStorage.removeItem('devtrack_token');
+        $('app').classList.add('hidden');
+        $('authScreen').classList.remove('hidden');
+        $('authMessage').textContent = error.message || 'Unable to connect to DevTrack.';
+      } finally { setLoading(false); }
+    }
 
-  if (!confirmed) {
-    return;
-  }
+    async function loadDays() { const r=await apiRequest('/study-days'); state.days=r.data || []; }
+    async function loadCompletions() { const r=await apiRequest('/completions'); state.completions=r.data || []; }
+    async function loadProgress() { const r=await apiRequest('/progress'); state.progress=r.data; }
+    async function loadProjects() { const r=await apiRequest('/projects'); state.projects=r.data || []; }
+    async function loadCalendar() { const start=new Date(state.calendarCursor.getFullYear(), state.calendarCursor.getMonth(), 1); const end=new Date(state.calendarCursor.getFullYear(), state.calendarCursor.getMonth()+1, 0); const r=await apiRequest(`/calendar?from=${iso(start)}&to=${iso(end)}`); state.calendar=r.data || []; }
+    async function loadNotes() { const r=await apiRequest('/notes'); state.notes=r.data || []; }
+    async function loadAchievements() { const r=await apiRequest('/achievements'); state.achievements=r.data || []; }
+    async function refreshAchievementsSilently() { try { const r=await apiRequest('/achievements/refresh',{method:'POST'}); state.achievements=r.data||[]; } catch {} }
+    async function loadNotifications() { const r=await apiRequest('/notifications'); state.notifications=r.data || []; }
+    async function loadPreferences() { const r=await apiRequest('/notifications/preferences'); state.preferences=r.data; }
+    async function loadAnalytics() { const r=await apiRequest('/analytics'); state.analytics=r.data; }
 
-  try {
-    showLoading(
-      "Resetting your progress..."
-    );
+    function isCompleted(id) { return state.completions.some(c => Number(c.studyDayId) === Number(id)); }
+    function getDay(id) { return state.days.find(d => Number(d.id) === Number(id)); }
+    function getStatus(day) {
+      if (isCompleted(day.id)) return ['Completed','completed'];
+      const d=iso(day.date);
+      if (d===todayIso) return ['Today','today'];
+      if (d<todayIso) return ['Missed','missed'];
+      return ['Upcoming','upcoming'];
+    }
 
-    await apiRequest(
-      "/completions/reset",
-      {
-        method: "DELETE",
-      }
-    );
+    async function toggleCompletion(id) {
+      try {
+        setLoading(true, isCompleted(id) ? 'Undoing completion' : 'Saving completion', 'Syncing your progress with the database.');
+        if (isCompleted(id)) await apiRequest(`/completions/${id}`, {method:'DELETE'});
+        else await apiRequest(`/completions/${id}`, {method:'POST'});
+        await Promise.all([loadCompletions(),loadProgress(),loadAnalytics()]);
+        await refreshAchievementsSilently();
+        renderAll();
+      } catch (error) { showToast(error.message || 'Could not update completion.', 'error'); }
+      finally { setLoading(false); }
+    }
 
-    completions = [];
+    function currentDay() { return state.days.find(d=>iso(d.date)===todayIso) || state.days[0]; }
+    function yesterdayDay() { const d=new Date(); d.setDate(d.getDate()-1); return state.days.find(x=>iso(x.date)===iso(d)); }
 
-    await loadProgress();
+    function renderShell() {
+      $('userChip').innerHTML = `<strong>${escapeHtml(state.user?.name || state.user?.username || 'Developer')}</strong><span>${escapeHtml(state.user?.email || '')}</span>`;
+      $('adminNav').classList.toggle('hidden', state.user?.role !== 'admin');
+    }
 
-    render();
+    function setView(view) {
+      if (view==='admin' && state.user?.role!=='admin') return showToast('Admin access required.', 'error');
+      state.view=view;
+      document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id===view));
+      document.querySelectorAll('#nav button[data-view]').forEach(b=>b.classList.toggle('active', b.dataset.view===view));
+      const meta={dashboard:['Dashboard','Keep the next useful step obvious.'],today:['Today','Your current lesson and a practical catch-up path.'],roadmap:['Roadmap','Work the curriculum in sequence, or revisit any day.'],calendar:['Calendar','See the whole month at a glance.'],progress:['Progress','Patterns, streaks and completion history.'],projects:['Projects','Turn the roadmap into proof of work.'],notes:['Daily notes','Keep your learning history attached to each day.'],achievements:['Achievements','Small signals that you are moving.'],settings:['Settings','Account, reminders and password controls.'],admin:['Admin','Operational view of the DevTrack workspace.']};
+      $('pageHeading').textContent=meta[view][0]; $('pageSubheading').textContent=meta[view][1];
+    }
 
-    console.log(
-      "✅ Progress reset successfully"
-    );
-  } catch (error) {
-    console.error(
-      "❌ Failed to reset progress:",
-      error
-    );
-
-    alert(
-      error.message ||
-      "Failed to reset progress"
-    );
-  } finally {
-    hideLoading();
-  }
-}
-
-document
-  .getElementById("resetProgressBtn")
-  .addEventListener(
-    "click",
-    resetProgress
-  );
-      function render() {
-        const i = currentIndex();
-        const t = DAYS[i];
-        const done = isCompleted(t.id);
-        document.getElementById("todayDate").textContent = formatDate(t.date, {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        });
-        document.getElementById("todayPhase").textContent = t.phase;
-        document.getElementById("todayTitle").textContent = t.focus.replace(
-          /^Learn: |^Practice: |^Build: /,
-          "",
-        );
-        document.getElementById("todayDesc").textContent = t.practice;
-        document.getElementById("mainBar").style.width =
-          progressData.overallProgress + "%";
-
-        document.getElementById("overall").textContent =
-          progressData.overallProgress + "%";
-
-        document.getElementById("streak").textContent =
-          progressData.currentStreak + " 🔥";
-
-        document.getElementById("hours").textContent =
-          progressData.completedHours + "h";
-        document.getElementById("completeBtn").textContent = done
-          ? "✓ Today completed"
-          : "Mark today complete";
-        document.getElementById("todayComplete").textContent = done
-          ? "✓ Today completed"
-          : "Mark complete";
-        document.getElementById("todayTag").textContent =
-          t.week + " · " + t.phase;
-        document.getElementById("fullTodayTitle").textContent = t.focus.replace(
-          /^Learn: |^Practice: |^Build: /,
-          "",
-        );
-        document.getElementById("fullTodayFocus").textContent = t.focus;
-        document.getElementById("fullTodayPractice").textContent = t.practice;
-        document.getElementById("fullTodayProject").textContent = t.project;
-        document.getElementById("completeBtn").onclick = () => {
-          const index = currentIndex();
-          const today = DAYS[index];
-
-          console.log("Completing study day:", today.id, today.date);
-
-          toggleCompletion(today.id);
-        };
-        document.getElementById("todayComplete").onclick = () => {
-          const index = currentIndex();
-          const today = DAYS[index];
-
-          toggleCompletion(today.id);
-        };
-renderCatchUp();
-renderPhases();
-renderWeeks(roadmapFilter);
-renderProgress();
-      }
-
-      function renderPhases() {
-        const groups = {};
-
-        DAYS.forEach((day) => {
-          if (!groups[day.phase]) {
-            groups[day.phase] = [];
-          }
-
-          groups[day.phase].push(day);
-        });
-
-        document.getElementById("phaseCards").innerHTML = Object.entries(groups)
-          .slice(0, 9)
-          .map(([phase, days]) => {
-            const completedCount = days.filter((day) =>
-              isCompleted(day.id),
-            ).length;
-
-            const percentage =
-              days.length === 0
-                ? 0
-                : Math.round((completedCount / days.length) * 100);
-
-            return `
-          <div class="phase">
-            <small>${days.length} study days</small>
-
-            <strong>${phase}</strong>
-
-            <div class="progressrow">
-              <span>${completedCount} complete</span>
-              <span>${percentage}%</span>
+    function renderDashboard() {
+      const d=currentDay(); const p=state.progress || {}; const y=yesterdayDay();
+      const catchup = y && !isCompleted(y.id);
+      $('dashboard').innerHTML=`
+        <div class="grid grid-12">
+          <div class="card hero span-8">
+            <div>
+              <div class="eyebrow">${escapeHtml(d?.phase || 'Today')}</div>
+              <h2>${escapeHtml(stripPrefix(d?.focus || 'Loading…'))}</h2>
+              <p class="focus">${escapeHtml(d?.practice || '')}</p>
+              <div class="meta-line" style="margin-top:18px">
+                <span class="meta-tag">${escapeHtml(formatDate(d?.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}))}</span>
+                <span class="meta-tag">${escapeHtml(d?.week || '')}</span>
+                <span class="meta-tag">${escapeHtml(d?.hours ?? 0)}h</span>
+              </div>
             </div>
-
-            <div class="bar">
-              <i style="width:${percentage}%"></i>
+            <div>
+              <div class="progress-track"><i style="width:${p.overallProgress||0}%"></i></div>
+              <div class="actions" style="margin-top:14px">
+                <button id="dashboardComplete" class="btn ${isCompleted(d?.id)?'':'btn-primary'}">${isCompleted(d?.id)?'✓ Completed today':'Mark today complete'}</button>
+                <button class="btn" data-go="today">Open lesson</button>
+                <button class="btn" data-go="roadmap">Open roadmap</button>
+              </div>
             </div>
           </div>
-        `;
-          })
-          .join("");
-      }
-      async function loadProgress() {
-        try {
-          const response = await apiRequest("/progress");
-          progressData = response.data;
-
-          console.log("✅ Loaded progress from API");
-        } catch (error) {
-          console.error("❌ Failed to load progress:", error);
-        }
-      }
-
-      function getDayStatus(day) {
-        const completed = isCompleted(day.id);
-        const dayDate = iso(day.date);
-
-        if (completed) {
-          return {
-            text: "Completed",
-            className: "completed",
-          };
-        }
-
-        if (dayDate === todayIso) {
-          return {
-            text: "Today",
-            className: "today",
-          };
-        }
-
-        if (dayDate < todayIso) {
-          return {
-            text: "Missed",
-            className: "missed",
-          };
-        }
-
-        return {
-          text: "Upcoming",
-          className: "upcoming",
-        };
-      }
-      function renderWeeks(filter = "all") {
-        const container = document.getElementById("weeks");
-
-        if (!DAYS.length) {
-          container.innerHTML =
-            "<p class='settings'>No study days available.</p>";
-          return;
-        }
-
-        const todayId = DAYS.find((day) => iso(day.date) === todayIso)?.id;
-
-       const filteredDays = DAYS.filter((day) => {
-  const completed = isCompleted(day.id);
-  const isToday = iso(day.date) === todayIso;
-
-  if (filter === "today") {
-    return isToday;
-  }
-
-  if (filter === "completed") {
-    return completed;
-  }
-
-  if (filter === "pending") {
-    return !completed;
-  }
-
-  return true;
-});
-
-        if (!filteredDays.length) {
-          container.innerHTML =
-            "<p class='settings'>No days match this filter.</p>";
-          return;
-        }
-
-        const groups = {};
-
-        filteredDays.forEach((day) => {
-          const week = day.week || "Unassigned";
-
-          if (!groups[week]) {
-            groups[week] = [];
-          }
-
-          groups[week].push(day);
-        });
-
-        container.innerHTML = Object.entries(groups)
-          .map(([week, days]) => {
-            const weekNumber = Number(week.replace("Week ", ""));
-
-            return `
-        <div class="roadmap-week-heading">
-          ${week}
-
-          ${
-            Number.isNaN(weekNumber)
-              ? ""
-              : `<span class="roadmap-status pending">
-                   ${weekNumber}
-                 </span>`
-          }
-        </div>
-
-        ${days
-          .map((day) => {
-  const completed = isCompleted(day.id);
-  const status = getDayStatus(day);
-
-  const title = day.focus.replace(
-    /^Learn: |^Practice: |^Build: /,
-    "");
-
-  return `
-              <div
-                class="roadmap-day ${
-  completed ? "completed" : ""
-} ${
-  status.className === "today" ? "today" : ""
-}"
-              >
-                <div class="roadmap-day-top">
-
-                  <div class="roadmap-day-info">
-
-                    <div class="roadmap-day-date">
-                      ${formatDate(day.date, {
-                        weekday: "long",
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-
-          <span
-  class="roadmap-status ${status.className}"
->
-  ${status.text}
-</span>
-                    </div>
-
-                    <div class="roadmap-day-meta">
-                      ${day.phase} · ${day.hours}h
-                    </div>
-
-                    <div class="roadmap-day-title">
-                      ${title}
-                    </div>
-
-                    <div class="roadmap-day-details">
-                      ${day.practice}
-                    </div>
-
-                    <div
-                      class="roadmap-day-details"
-                      style="margin-top:6px"
-                    >
-                      <strong>Project:</strong>
-                      ${day.project}
-                    </div>
-
-                  </div>
-
-                  <button
-                    class="roadmap-day-action ${completed ? "complete" : ""}"
-                    data-roadmap-day="${day.id}"
-                  >
-                    ${completed ? "✓ Completed" : "Mark complete"}
-                  </button>
-
-                </div>
-              </div>
-            `;
-          })
-          .join("")}
-      `;
-          })
-          .join("");
-
-        // Attach button listeners after the HTML exists.
-        document.querySelectorAll("[data-roadmap-day]").forEach((button) => {
-          button.addEventListener("click", async () => {
-            const studyDayId = Number(button.dataset.roadmapDay);
-
-            button.disabled = true;
-
-            await toggleCompletion(studyDayId);
-
-            button.disabled = false;
-          });
-        });
-      }
-
-      let roadmapFilter = "all";
-
-      document.querySelectorAll(".roadmap-filter").forEach((button) => {
-        button.addEventListener("click", () => {
-          roadmapFilter = button.dataset.filter;
-
-          document.querySelectorAll(".roadmap-filter").forEach((item) => {
-            item.classList.toggle("active", item === button);
-          });
-
-          renderWeeks(roadmapFilter);
-        });
-      });
-      function renderProgress() {
-        const recentCompletions = [...completions]
-          .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
-          .slice(0, 7);
-
-        const weekly = progressData.weeklyProgress || [];
-        const phases = progressData.phaseProgress || [];
-
-        document.getElementById("progressContent").innerHTML = `
-    <div class="stats">
-      <div class="stat">
-        <b>${progressData.overallProgress}%</b>
-        <span>roadmap complete</span>
-      </div>
-
-      <div class="stat">
-        <b>${progressData.completedDays}/${progressData.totalDays}</b>
-        <span>study days</span>
-      </div>
-
-      <div class="stat">
-        <b>${progressData.completedHours}h</b>
-        <span>hours completed</span>
-      </div>
-
-      <div class="stat">
-        <b>${progressData.currentStreak} 🔥</b>
-        <span>current streak</span>
-      </div>
-
-      <div class="stat">
-        <b>${progressData.longestStreak}</b>
-        <span>longest streak</span>
-      </div>
-    </div>
-
-    <div style="margin-top:22px">
-      <div class="progressrow">
-        <span>Overall roadmap progress</span>
-        <span>${progressData.overallProgress}%</span>
-      </div>
-
-      <div class="bar">
-        <i style="width:${progressData.overallProgress}%"></i>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>Weekly progress</h3>
-
-      <div class="list">
-        ${weekly
-          .map(
-            (week) => `
-            <div class="phase">
-              <div class="progressrow">
-                <strong>Week ${week.week}</strong>
-                <span>${week.percentage}%</span>
-              </div>
-
-              <small>
-                ${week.completedDays}/${week.totalDays} days ·
-                ${week.completedHours}/${week.plannedHours} hours
-              </small>
-
-              <div
-                class="bar"
-                style="margin-top:10px"
-              >
-                <i style="width:${week.percentage}%"></i>
-              </div>
+          <div class="card span-4">
+            <div class="eyebrow">Momentum</div>
+            <div class="stat-grid">
+              <div class="stat"><strong>${p.overallProgress||0}%</strong><span>roadmap complete</span></div>
+              <div class="stat"><strong>${p.currentStreak||0}</strong><span>current streak</span></div>
+              <div class="stat"><strong>${p.completedHours||0}h</strong><span>hours completed</span></div>
+              <div class="stat"><strong>${p.completedDays||0}/${p.totalDays||state.days.length}</strong><span>days completed</span></div>
             </div>
-          `,
-          )
-          .join("")}
-      </div>
-    </div>
+          </div>
+          ${catchup?`<div class="card span-12"><div class="eyebrow">Catch up</div><h3 style="margin-top:6px">${escapeHtml(formatDate(y.date,{weekday:'long',month:'short',day:'numeric'}))} is still open</h3><p class="subtle">${escapeHtml(stripPrefix(y.focus))}</p><div class="actions"><button id="catchupComplete" class="btn btn-primary">Mark yesterday complete</button><button class="btn" data-go="roadmap">Find it in roadmap</button></div></div>`:''}
+          <div class="card span-6"><div class="eyebrow">Roadmap at a glance</div><div id="dashboardPhases" class="list" style="margin-top:10px"></div></div>
+          <div class="card span-6"><div class="eyebrow">Portfolio</div><div id="dashboardProjects" class="list" style="margin-top:10px"></div></div>
+        </div>`;
+      const phases=state.progress?.phaseProgress||[]; $('dashboardPhases').innerHTML=phases.slice(0,6).map(x=>`<div class="list-row"><div><strong>${escapeHtml(x.phase)}</strong><span>${x.completedDays}/${x.totalDays} days · ${x.completedHours}/${x.plannedHours}h</span></div><strong>${x.percentage}%</strong></div>`).join('');
+      $('dashboardProjects').innerHTML=state.projects.map(x=>`<div class="list-row"><div><strong>${escapeHtml(x.name)}</strong><span>${x.progress}% complete</span></div><button class="btn" data-go="projects">Open</button></div>`).join('');
+      $('dashboardComplete').onclick=()=>toggleCompletion(d.id); if (catchup) $('catchupComplete').onclick=()=>toggleCompletion(y.id);
+      document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>setView(b.dataset.go));
+    }
 
-    <div class="section">
-      <h3>Phase progress</h3>
+    function renderToday() {
+      const d=currentDay(); if(!d){ $('today').innerHTML='<div class="card">No study day found.</div>'; return; }
+      $('today').innerHTML=`<div class="grid grid-12"><div class="card span-8"><div class="eyebrow">${escapeHtml(d.phase)}</div><h2 class="page-title">${escapeHtml(stripPrefix(d.focus))}</h2><p class="subtle">${escapeHtml(d.practice)}</p><div class="rule"></div><div class="meta-line"><span class="meta-tag">${escapeHtml(formatDate(d.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}))}</span><span class="meta-tag">${escapeHtml(d.week)}</span><span class="meta-tag">${d.hours}h</span></div><div class="rule"></div><div><div class="eyebrow">Project target</div><p class="subtle">${escapeHtml(d.projectTarget||'')}</p></div><div class="actions" style="margin-top:20px"><button id="todayToggle" class="btn btn-primary">${isCompleted(d.id)?'✓ Completed':'Mark complete'}</button><button class="btn" data-open-note="${d.id}">Open notes</button></div></div><div class="card span-4"><div class="eyebrow">Catch-up</div><h3 style="margin-top:6px">Missed lessons</h3><p class="subtle">You can complete any previous day from the roadmap. Nothing is locked by date.</p><button class="btn" data-go="roadmap">Browse all days</button></div></div>`;
+      $('todayToggle').onclick=()=>toggleCompletion(d.id); document.querySelector('[data-open-note]').onclick=()=>{state.selectedNoteDayId=d.id; setView('notes'); renderNotes();}; document.querySelector('[data-go]').onclick=()=>setView('roadmap');
+    }
 
-      <div class="list">
-        ${phases
-          .map(
-            (phase) => `
-            <div class="phase">
-              <div class="progressrow">
-                <strong>${phase.phase}</strong>
-                <span>${phase.percentage}%</span>
-              </div>
+    function renderRoadmap() {
+      const filters=[['all','All'],['today','Today'],['completed','Completed'],['pending','Pending'],['missed','Missed']];
+      const list=state.days.filter(d=>{const done=isCompleted(d.id); const [_,cls]=getStatus(d); if(state.roadmapFilter==='today')return cls==='today'; if(state.roadmapFilter==='completed')return done; if(state.roadmapFilter==='pending')return !done; if(state.roadmapFilter==='missed')return cls==='missed'; return true;});
+      let currentWeek=''; let html='';
+      list.forEach(d=>{ if(d.week!==currentWeek){ currentWeek=d.week; const wp=(state.progress?.weeklyProgress||[]).find(w=>Number(w.week)===Number(String(d.week).replace(/\D/g,''))); html+=`<div class="week-head"><strong>${escapeHtml(d.week)} · ${escapeHtml(d.phase)}</strong><span>${wp?`${wp.completedDays}/${wp.totalDays} days · ${wp.percentage}%`:''}</span></div>`; } const [status,cls]=getStatus(d); html+=`<article class="roadmap-day ${cls==='today'?'today':''} ${cls==='completed'?'completed':''}"><div class="roadmap-top"><div><div class="day-date">${escapeHtml(formatDate(d.date,{weekday:'long',month:'short',day:'numeric',year:'numeric'}))}<span class="status ${cls}">${status}</span></div><div class="day-meta">${escapeHtml(d.phase)} · ${d.hours}h</div><div class="day-title">${escapeHtml(stripPrefix(d.focus))}</div><div class="day-details">${escapeHtml(d.practice)}</div><div class="day-details"><strong>Project:</strong> ${escapeHtml(d.projectTarget)}</div></div><button class="btn ${isCompleted(d.id)?'btn-primary':''}" data-day-toggle="${d.id}">${isCompleted(d.id)?'✓ Completed':'Mark complete'}</button></div></article>`; });
+      $('roadmap').innerHTML=`<div class="card"><div class="eyebrow">153 days · checklist</div><h2 class="page-title">Roadmap</h2><p class="subtle">Use this as your source of truth. You can work today, catch up, or work ahead.</p><div class="toolbar"><div class="grow"></div>${filters.map(([k,l])=>`<button class="btn filter ${state.roadmapFilter===k?'active':''}" data-filter="${k}">${l}</button>`).join('')}</div><div>${html||'<p class="subtle">No days match this filter.</p>'}</div></div>`;
+      document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{state.roadmapFilter=b.dataset.filter; renderRoadmap();}); document.querySelectorAll('[data-day-toggle]').forEach(b=>b.onclick=()=>toggleCompletion(Number(b.dataset.dayToggle)));
+    }
 
-              <small>
-                ${phase.completedDays}/${phase.totalDays} days ·
-                ${phase.completedHours}/${phase.plannedHours} hours
-              </small>
+    function renderCalendar() {
+      const cur=state.calendarCursor; const year=cur.getFullYear(); const month=cur.getMonth(); const first=new Date(year,month,1); const last=new Date(year,month+1,0); const prevDays=new Date(year,month,0).getDate(); const cells=[]; const lead=(first.getDay()+6)%7;
+      for(let i=lead-1;i>=0;i--) cells.push({date:new Date(year,month-1,prevDays-i),outside:true}); for(let d=1;d<=last.getDate();d++)cells.push({date:new Date(year,month,d),outside:false}); while(cells.length%7)cells.push({date:new Date(year,month+1,cells.length-(lead+last.getDate())+1),outside:true});
+      const byDate=new Map(state.calendar.map(x=>[iso(x.date),x]));
+      $('calendar').innerHTML=`<div class="card"><div class="calendar-head"><div><div class="eyebrow">Monthly view</div><h2>${cur.toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h2></div><div class="actions"><button id="calPrev" class="btn">←</button><button id="calToday" class="btn">Today</button><button id="calNext" class="btn">→</button></div></div><div class="calendar-grid">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="calendar-cell head">${x}</div>`).join('')}${cells.map(c=>{const x=byDate.get(iso(c.date)); const today=iso(c.date)===todayIso; return `<button class="calendar-cell ${c.outside?'outside':''}" style="text-align:left;color:inherit" data-cal-day="${x?x.id:''}" ${x?'':'disabled'}><div class="cal-num">${c.date.getDate()} ${x?`<i class="cal-dot ${x.completed?'done':''} ${today?'today':''}"></i>`:''}</div>${x?`<div class="cal-title">${escapeHtml(stripPrefix(x.focus))}</div><div class="cal-open">${x.completed?'Completed':'Open lesson'}</div>`:''}</button>`;}).join('')}</div></div>`;
+      $('calPrev').onclick=async()=>{state.calendarCursor=new Date(year,month-1,1); await loadCalendar(); renderCalendar();}; $('calNext').onclick=async()=>{state.calendarCursor=new Date(year,month+1,1); await loadCalendar(); renderCalendar();}; $('calToday').onclick=async()=>{state.calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1); await loadCalendar(); renderCalendar();}; document.querySelectorAll('[data-cal-day]').forEach(b=>b.onclick=()=>{const day=getDay(Number(b.dataset.calDay)); if(day){state.selectedNoteDayId=day.id; setView('today'); renderToday();}});
+    }
 
-              <div
-                class="bar"
-                style="margin-top:10px"
-              >
-                <i style="width:${phase.percentage}%"></i>
-              </div>
-            </div>
-          `,
-          )
-          .join("")}
-      </div>
-    </div>
+    function renderProgress() {
+      const p=state.progress||{}; const a=state.analytics||{}; const weekly=p.weeklyProgress||[]; const phases=p.phaseProgress||[];
+      $('progress').innerHTML=`<div class="grid grid-12"><div class="card span-4"><div class="eyebrow">Overview</div><div class="stat-grid"><div class="stat"><strong>${p.overallProgress||0}%</strong><span>overall</span></div><div class="stat"><strong>${p.currentStreak||0}</strong><span>current streak</span></div><div class="stat"><strong>${p.longestStreak||0}</strong><span>longest streak</span></div><div class="stat"><strong>${p.completedHours||0}h</strong><span>completed hours</span></div></div></div><div class="card span-8"><div class="eyebrow">Daily completion</div><div class="chart-wrap"><canvas id="activityChart" width="900" height="280"></canvas></div></div><div class="card span-6"><div class="eyebrow">Weekly rhythm</div><div id="weeklyProgress" class="list"></div></div><div class="card span-6"><div class="eyebrow">By phase</div><div id="phaseProgress" class="list"></div></div></div>`;
+      $('weeklyProgress').innerHTML=weekly.map(w=>`<div class="list-row"><div><strong>Week ${w.week}</strong><span>${w.completedDays}/${w.totalDays} days · ${w.completedHours}/${w.plannedHours}h</span></div><strong>${w.percentage}%</strong></div>`).join(''); $('phaseProgress').innerHTML=phases.map(w=>`<div class="list-row"><div><strong>${escapeHtml(w.phase)}</strong><span>${w.completedDays}/${w.totalDays} days · ${w.completedHours}/${w.plannedHours}h</span></div><strong>${w.percentage}%</strong></div>`).join(''); drawActivityChart(a.activity||[]);
+    }
 
-    <div class="section">
-      <h3>Recent activity</h3>
+    function drawActivityChart(activity) {
+      const c=$('activityChart'); if(!c) return; const ctx=c.getContext('2d'); const w=c.width=c.clientWidth*devicePixelRatio; const h=c.height=280*devicePixelRatio; ctx.scale(devicePixelRatio,devicePixelRatio); const W=c.clientWidth,H=280; ctx.clearRect(0,0,W,H); const pad={l:38,r:15,t:15,b:30}; const rows=activity.slice(-30); const barW=Math.max(4,(W-pad.l-pad.r)/Math.max(rows.length,1)-5); ctx.font='10px system-ui'; ctx.fillStyle='#89939b'; ctx.strokeStyle='#30363c'; ctx.lineWidth=1; [0,.5,1].forEach(v=>{const y=pad.t+(H-pad.t-pad.b)*(1-v);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.fillText(`${Math.round(v*100)}%`,5,y+3);}); rows.forEach((r,i)=>{const x=pad.l+i*(barW+5); const yBase=H-pad.b; const y=yBase-(H-pad.t-pad.b)*Number(r.completed||0); ctx.fillStyle=r.completed?'#e9b949':'#3c444b'; ctx.fillRect(x,y,barW,(H-pad.b)-y); if(i%5===0) {ctx.fillStyle='#89939b';ctx.fillText(formatDate(r.date,{month:'short',day:'numeric'}),x,yBase+16);}});
+    }
 
-      <div class="list">
-        ${
-          recentCompletions.length
-            ? recentCompletions
-                .map((completion) => {
-                  const studyDay = DAYS.find(
-                    (day) => day.id === completion.studyDayId,
-                  );
+    function renderProjects() {
+      $('projects').innerHTML=`<div class="card"><div class="eyebrow">Build proof</div><h2 class="page-title">Portfolio projects</h2><p class="subtle">Keep links and progress beside the project itself.</p><div class="grid" style="margin-top:16px">${state.projects.map(p=>`<article class="card project-card" style="background:#15181b"><div class="project-main"><div><h3>${escapeHtml(p.name)}</h3><p class="subtle">${escapeHtml(p.description||'')}</p></div><strong>${p.progress}%</strong></div><div class="progress-track"><i style="width:${p.progress}%"></i></div><div class="slider-row"><input type="range" min="0" max="100" step="5" value="${p.progress}" data-project-slider="${p.id}"><strong data-project-value="${p.id}">${p.progress}%</strong></div><div class="project-links">${p.githubUrl?`<a href="${escapeHtml(p.githubUrl)}" target="_blank" rel="noreferrer">GitHub ↗</a>`:'<span class="subtle">GitHub not added</span>'}${p.demoUrl?`<a href="${escapeHtml(p.demoUrl)}" target="_blank" rel="noreferrer">Live demo ↗</a>`:''}</div><div class="actions"><button class="btn" data-edit-links="${p.id}">Edit links</button></div></article>`).join('')}</div></div>`;
+      document.querySelectorAll('[data-project-slider]').forEach(s=>{s.oninput=()=>document.querySelector(`[data-project-value="${s.dataset.projectSlider}"]`).textContent=`${s.value}%`;s.onchange=()=>updateProject(Number(s.dataset.projectSlider),Number(s.value));}); document.querySelectorAll('[data-edit-links]').forEach(b=>b.onclick=()=>openProjectLinks(Number(b.dataset.editLinks)));
+    }
 
-                  if (!studyDay) return "";
+    async function updateProject(id, progress) { try { setLoading(true,'Saving project','Updating project progress.'); await apiRequest(`/projects/${id}/progress`,{method:'PATCH',body:JSON.stringify({progress})}); await Promise.all([loadProjects(),loadProgress()]); await refreshAchievementsSilently(); renderAll(); showToast('Project progress saved.','success'); } catch(e){showToast(e.message||'Could not save project.','error');} finally{setLoading(false);} }
+    function openProjectLinks(id){ const p=state.projects.find(x=>x.id===id); if(!p)return; const github=prompt('GitHub URL:',p.githubUrl||''); const demo=prompt('Live demo URL (optional):',p.demoUrl||''); saveProjectLinks(id,github,demo); }
+    async function saveProjectLinks(id,githubUrl,demoUrl){ try{await apiRequest(`/projects/${id}/links`,{method:'PATCH',body:JSON.stringify({githubUrl:githubUrl||null,demoUrl:demoUrl||null})});await loadProjects();renderProjects();showToast('Project links saved.','success');}catch(e){showToast(e.message||'Could not save links.','error');} }
 
-                  return `
-                  <div class="dayitem done">
-                    <div class="d">
-                      ${formatDate(studyDay.date, {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </div>
+    function renderNotes() {
+      const selected=state.selectedNoteDayId || currentDay()?.id; state.selectedNoteDayId=selected; const day=getDay(selected); const note=state.notes.find(n=>Number(n.studyDayId)===Number(selected));
+      $('notes').innerHTML=`<div class="card"><div class="eyebrow">Learning journal</div><h2 class="page-title">Daily notes</h2><div class="note-layout"><div class="card" style="background:#15181b;padding:10px"><div class="toolbar"><input id="noteSearch" placeholder="Filter days…" style="flex:1;background:#121518;color:var(--text);border:1px solid var(--line);padding:9px;border-radius:7px"></div><div id="noteList" class="note-list"></div></div><div class="card" style="background:#15181b"><div class="eyebrow">${day?escapeHtml(formatDate(day.date,{weekday:'long',month:'short',day:'numeric'})):'Select a day'}</div><h3 style="margin-top:6px">${day?escapeHtml(stripPrefix(day.focus)):'Choose a study day'}</h3><p class="subtle">${day?escapeHtml(day.practice):''}</p><textarea id="noteEditor" style="margin-top:14px;width:100%;min-height:300px;background:#101214;color:var(--text);border:1px solid var(--line);padding:14px;border-radius:8px;resize:vertical">${escapeHtml(note?.content||'')}</textarea><div class="actions" style="margin-top:12px"><button id="saveNote" class="btn btn-primary">Save note</button><button id="deleteNote" class="btn btn-danger">Delete note</button></div><p id="noteStatus" class="subtle"></p></div></div></div>`;
+      renderNoteList(); $('noteSearch').oninput=renderNoteList; $('saveNote').onclick=saveNote; $('deleteNote').onclick=deleteNote;
+    }
+    function renderNoteList(){ const q=($('noteSearch')?.value||'').toLowerCase(); const list=state.days.filter(d=>{const hay=`${d.date} ${d.phase} ${d.focus}`.toLowerCase();return hay.includes(q)}).slice().reverse(); $('noteList').innerHTML=list.map(d=>{const n=state.notes.find(x=>Number(x.studyDayId)===Number(d.id)); return `<button class="note-item ${Number(state.selectedNoteDayId)===Number(d.id)?'active':''}" data-note-day="${d.id}"><strong>${escapeHtml(formatDate(d.date,{month:'short',day:'numeric'}))} · ${escapeHtml(stripPrefix(d.focus))}</strong><span>${n?'Has a note':'No note yet'}${isCompleted(d.id)?' · completed':''}</span></button>`}).join(''); document.querySelectorAll('[data-note-day]').forEach(b=>b.onclick=()=>{state.selectedNoteDayId=Number(b.dataset.noteDay);renderNotes();}); }
+    async function saveNote(){ const id=state.selectedNoteDayId; const content=$('noteEditor').value.trim(); try{setLoading(true,'Saving note','Writing to your learning journal.');await apiRequest(`/notes/${id}`,{method:'PUT',body:JSON.stringify({content})});await loadNotes();renderNotes();showToast('Note saved.','success');}catch(e){showToast(e.message||'Could not save note.','error');}finally{setLoading(false);} }
+    async function deleteNote(){ const id=state.selectedNoteDayId; try{await apiRequest(`/notes/${id}`,{method:'DELETE'});await loadNotes();renderNotes();showToast('Note deleted.','success');}catch(e){showToast(e.message||'Could not delete note.','error');} }
 
-                    <div>
-                      <b>
-                        ${studyDay.focus.replace(
-                          /^Learn: |^Practice: |^Build: /,
-                          "",
-                        )}
-                      </b>
+    function renderAchievements(){ const unlocked=new Set(state.achievements.filter(a=>a.unlockedAt).map(a=>a.code)); $('achievements').innerHTML=`<div class="card"><div class="eyebrow">Milestones</div><h2 class="page-title">Achievements</h2><p class="subtle">These are earned automatically from the progress you are actually making.</p><div class="achievement-grid" style="margin-top:18px">${state.achievements.map(a=>`<article class="achievement ${unlocked.has(a.code)?'':'locked'}"><div class="achievement-icon">${escapeHtml(a.icon)}</div><strong>${escapeHtml(a.name)}</strong><p>${escapeHtml(a.description)}</p>${a.unlockedAt?`<small>Unlocked ${escapeHtml(formatDate(a.unlockedAt,{month:'short',day:'numeric',year:'numeric'}))}</small>`:'<small>Locked</small>'}</article>`).join('')}</div></div>`; }
 
-                      <small>
-                        ${studyDay.phase}
-                      </small>
-                    </div>
+    async function renderNotifications(){ await loadNotifications(); const unread=state.notifications.filter(n=>!n.isRead); $('notificationDot').classList.toggle('hidden',unread.length===0); $('notificationList').innerHTML=state.notifications.length?state.notifications.map(n=>`<article class="notice ${n.isRead?'':'unread'}"><strong>${escapeHtml(n.title)}</strong><p>${escapeHtml(n.message)}</p><small>${escapeHtml(formatDate(n.createdAt,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}))}</small>${!n.isRead?`<div style="margin-top:8px"><button class="btn" data-read-notice="${n.id}">Mark read</button></div>`:''}</article>`).join(''):'<p class="subtle">No notifications yet.</p>';document.querySelectorAll('[data-read-notice]').forEach(b=>b.onclick=async()=>{await apiRequest(`/notifications/${b.dataset.readNotice}/read`,{method:'PATCH'});renderNotifications();}); }
 
-                    <button
-                      class="check done"
-                      data-completion-id="${studyDay.id}"
-                    >
-                      ✓
-                    </button>
-                  </div>
-                `;
-                })
-                .join("")
-            : "<p class='settings'>Complete your first day and your activity will appear here.</p>"
-        }
-      </div>
-    </div>
-  `;
+    function renderSettings(){ const p=state.preferences||{enabled:true,reminderTime:'08:00:00',timezone:'UTC'}; $('settings').innerHTML=`<div class="grid grid-12"><div class="card span-6"><div class="eyebrow">Profile</div><h2 class="page-title">Your profile</h2><form id="profileForm" class="grid" style="margin-top:16px"><div class="field"><label>Name</label><input id="profileName" value="${escapeHtml(state.user?.name||'')}"></div><div class="field"><label>Username</label><input id="profileUsername" value="${escapeHtml(state.user?.username||'')}"></div><div class="field"><label>Email</label><input value="${escapeHtml(state.user?.email||'')}" disabled></div><button class="btn btn-primary" type="submit">Save profile</button></form></div><div class="card span-6"><div class="eyebrow">Reminders</div><h2 class="page-title">Study reminder</h2><form id="prefForm" class="grid" style="margin-top:16px"><label style="display:flex;align-items:center;gap:10px"><input id="prefEnabled" type="checkbox" ${p.enabled?'checked':''}> Enable daily reminder</label><div class="field"><label>Reminder time</label><input id="prefTime" type="time" value="${String(p.reminderTime||'08:00:00').slice(0,5)}"></div><div class="field"><label>Timezone</label><input id="prefTimezone" value="${escapeHtml(p.timezone||'UTC')}"></div><button class="btn btn-primary" type="submit">Save reminder</button></form><p class="subtle" style="margin-top:10px">Browser notifications require your browser to grant notification permission. Server-side reminders are stored in DevTrack and surfaced in your inbox.</p><button id="notifyPermission" class="btn">Enable browser notifications</button></div><div class="card span-6"><div class="eyebrow">Security</div><h2 class="page-title">Change password</h2><form id="passwordForm" class="grid" style="margin-top:16px"><div class="field"><label>Current password</label><input id="currentPassword" type="password" required></div><div class="field"><label>New password</label><input id="newPassword" type="password" minlength="8" required></div><button class="btn btn-primary" type="submit">Change password</button></form></div><div class="card span-6"><div class="eyebrow">Danger zone</div><h2 class="page-title">Reset learning progress</h2><p class="subtle">Deletes your completion history only. Your roadmap, projects and notes stay intact.</p><button id="resetAll" class="btn btn-danger">Reset all completions</button></div></div>`;
+      $('profileForm').onsubmit=updateProfile; $('prefForm').onsubmit=savePreferences; $('passwordForm').onsubmit=changePassword; $('notifyPermission').onclick=requestNotificationPermission; $('resetAll').onclick=resetAll;
+    }
 
-        document.querySelectorAll("[data-completion-id]").forEach((button) => {
-          button.onclick = () => {
-            const studyDayId = Number(button.dataset.completionId);
+    async function updateProfile(e){e.preventDefault();try{const r=await apiRequest('/profile',{method:'PATCH',body:JSON.stringify({name:$('profileName').value.trim(),username:$('profileUsername').value.trim()})});state.user=r.data;renderShell();renderSettings();showToast('Profile updated.','success');}catch(e){showToast(e.message||'Could not update profile.','error');}}
+    async function savePreferences(e){e.preventDefault();try{const r=await apiRequest('/notifications/preferences',{method:'PUT',body:JSON.stringify({enabled:$('prefEnabled').checked,reminderTime:$('prefTime').value,timezone:$('prefTimezone').value.trim()||'UTC'})});state.preferences=r.data;showToast('Reminder settings saved.','success');}catch(e){showToast(e.message||'Could not save settings.','error');}}
+    async function changePassword(e){e.preventDefault();try{await apiRequest('/password/change',{method:'POST',body:JSON.stringify({currentPassword:$('currentPassword').value,newPassword:$('newPassword').value})});e.target.reset();showToast('Password changed.','success');}catch(e){showToast(e.message||'Could not change password.','error');}}
+    async function resetAll(){if(!confirm('Reset every completed study day for this account?'))return;try{setLoading(true,'Resetting progress','Keeping your roadmap and projects intact.');await apiRequest('/completions/reset',{method:'DELETE'});await Promise.all([loadCompletions(),loadProgress(),loadAnalytics()]);await refreshAchievementsSilently();renderAll();showToast('Progress reset.','success');}catch(e){showToast(e.message||'Could not reset progress.','error');}finally{setLoading(false);}}
+    async function requestNotificationPermission(){if(!('Notification' in window)){return showToast('This browser does not support notifications.','error');}const p=await Notification.requestPermission();if(p==='granted'){showToast('Browser notifications enabled.','success');}else showToast('Notification permission was not granted.','error');}
 
-            toggleCompletion(studyDayId);
-          };
-        });
-      }
-      function showView(id) {
-        document
-          .querySelectorAll(".view")
-          .forEach((x) => x.classList.remove("active"));
-        document.getElementById(id).classList.add("active");
-        document
-          .querySelectorAll(".nav button")
-          .forEach((x) => x.classList.toggle("active", x.dataset.view === id));
-      }
-      document
-        .querySelectorAll(".nav button")
-        .forEach((b) => (b.onclick = () => showView(b.dataset.view)));
-      const hour = new Date().getHours();
-      document.getElementById("title").textContent =
-        hour < 12
-          ? "Good morning."
-          : hour < 18
-            ? "Good afternoon."
-            : "Good evening.";
-      let authMode = "login";
+    async function loadAdmin(){ if(state.user?.role!=='admin')return; const [o,u,a]=await Promise.all([apiRequest('/admin/overview'),apiRequest('/admin/users'),apiRequest('/admin/activity')]); state.admin={overview:o.data,users:u.data||[],activity:a.data||[]}; }
+    async function renderAdmin(){ await loadAdmin(); const o=state.admin.overview||{}; $('admin').innerHTML=`<div class="grid grid-12"><div class="card span-12"><div class="eyebrow">Operations</div><h2 class="page-title">Admin dashboard</h2><div class="stat-grid" style="grid-template-columns:repeat(6,minmax(0,1fr))"><div class="stat"><strong>${o.users||0}</strong><span>users</span></div><div class="stat"><strong>${o.completions||0}</strong><span>completions</span></div><div class="stat"><strong>${o.projects||0}</strong><span>projects</span></div><div class="stat"><strong>${o.notes||0}</strong><span>notes</span></div><div class="stat"><strong>${o.unreadNotifications||0}</strong><span>unread notices</span></div><div class="stat"><strong>${o.unlockedAchievements||0}</strong><span>achievement unlocks</span></div></div></div><div class="card span-8"><div class="eyebrow">Users</div><div class="table-wrap"><table><thead><tr><th>ID</th><th>User</th><th>Email</th><th>Role</th><th>Created</th><th></th></tr></thead><tbody>${state.admin.users.map(u=>`<tr><td>${u.id}</td><td>${escapeHtml(u.name||u.username||'—')}</td><td>${escapeHtml(u.email)}</td><td>${escapeHtml(u.role)}</td><td>${escapeHtml(formatDate(u.createdAt,{month:'short',day:'numeric',year:'numeric'}))}</td><td><select data-role-user="${u.id}"><option value="user" ${u.role==='user'?'selected':''}>user</option><option value="admin" ${u.role==='admin'?'selected':''}>admin</option></select></td></tr>`).join('')}</tbody></table></div></div><div class="card span-4"><div class="eyebrow">Recent activity</div><div class="list">${state.admin.activity.slice(0,20).map(x=>`<div class="list-row"><div><strong>${escapeHtml(x.email)}</strong><span>${escapeHtml(stripPrefix(x.focus))}</span></div><small>${escapeHtml(formatDate(x.completedAt,{month:'short',day:'numeric'}))}</small></div>`).join('')}</div></div></div>`; document.querySelectorAll('[data-role-user]').forEach(s=>s.onchange=async()=>{try{await apiRequest(`/admin/users/${s.dataset.roleUser}/role`,{method:'PATCH',body:JSON.stringify({role:s.value})});showToast('User role updated.','success');await renderAdmin();}catch(e){showToast(e.message||'Could not update role.','error');}}); }
 
-      function setAuthMode(mode) {
-        authMode = mode;
+    function renderAll(){ renderDashboard(); renderToday(); renderRoadmap(); renderProgress(); renderProjects(); renderNotes(); renderAchievements(); renderSettings(); if(state.view==='calendar')renderCalendar(); else if(state.view==='admin'&&state.user?.role==='admin')renderAdmin(); }
 
-        const isLogin = mode === "login";
+    function handleResetQuery(){const token=new URLSearchParams(location.search).get('resetToken'); if(token){$('resetModal').classList.remove('hidden');$('resetForm').dataset.token=token;}}
+    async function handleForgot(e){e.preventDefault();try{const r=await apiRequest('/password/forgot',{method:'POST',body:JSON.stringify({email:$('forgotEmail').value.trim()})});$('forgotMessage').textContent=r.message||'If the account exists, instructions have been sent.';}catch(err){$('forgotMessage').textContent=err.message||'Unable to process request.';}}
+    async function handleReset(e){e.preventDefault();const token=e.target.dataset.token;try{await apiRequest('/password/reset',{method:'POST',body:JSON.stringify({token,newPassword:$('resetPassword').value})});$('resetMessage').textContent='Password reset successfully. You can now log in.';setTimeout(()=>{location.href=location.pathname;},900);}catch(err){$('resetMessage').textContent=err.message||'Unable to reset password.';}}
 
-        document.getElementById("loginTab").classList.toggle("active", isLogin);
+    $('loginTab').onclick=()=>setAuthMode('login'); $('registerTab').onclick=()=>setAuthMode('register'); $('authForm').onsubmit=authSubmit; $('forgotLink').onclick=()=>$('forgotModal').classList.remove('hidden'); $('forgotForm').onsubmit=handleForgot; $('resetForm').onsubmit=handleReset; document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add('hidden')); $('closeNotifications').onclick=()=>$('notificationPanel').classList.add('hidden'); $('notificationBtn').onclick=async()=>{$('notificationPanel').classList.remove('hidden');await renderNotifications();}; $('logoutBtn').onclick=()=>{localStorage.removeItem('devtrack_token');location.reload();}; document.querySelectorAll('#nav button[data-view]').forEach(b=>b.onclick=async()=>{setView(b.dataset.view); if(b.dataset.view==='calendar'){await loadCalendar();renderCalendar();}else if(b.dataset.view==='admin'){await renderAdmin();}});
 
-        document
-          .getElementById("registerTab")
-          .classList.toggle("active", !isLogin);
-
-        document
-          .getElementById("nameField")
-          .classList.toggle("hidden", isLogin);
-
-        document
-          .getElementById("usernameField")
-          .classList.toggle("hidden", isLogin);
-
-        document.getElementById("authSubmit").textContent = isLogin
-          ? "Login"
-          : "Create account";
-
-        document.getElementById("authMessage").textContent = "";
-      }
-
-      async function handleAuthSubmit(event) {
-        event.preventDefault();
-
-        const message = document.getElementById("authMessage");
-
-        const email = document.getElementById("authEmail").value.trim();
-
-        const password = document.getElementById("authPassword").value;
-
-        try {
-          message.textContent =
-            authMode === "login" ? "Logging in..." : "Creating account...";
-
-          let response;
-
-          if (authMode === "login") {
-            response = await apiRequest("/auth/login", {
-              method: "POST",
-              body: JSON.stringify({
-                email,
-                password,
-              }),
-            });
-          } else {
-            const name = document.getElementById("authName").value.trim();
-
-            const username = document
-              .getElementById("authUsername")
-              .value.trim();
-
-            response = await apiRequest("/auth/register", {
-              method: "POST",
-              body: JSON.stringify({
-                name,
-                username,
-                email,
-                password,
-              }),
-            });
-
-            // Registration doesn't return a JWT,
-            // so automatically switch to login.
-            setAuthMode("login");
-
-            message.textContent = "Account created. Please log in.";
-
-            return;
-          }
-
-          localStorage.setItem("devtrack_token", response.data.token);
-
-          document.getElementById("authScreen").classList.add("hidden");
-
-          await initializeApp();
-        } catch (error) {
-          console.error("Authentication failed:", error);
-
-          message.textContent = error.message || "Authentication failed";
-        }
-      }
-
-      document
-        .getElementById("loginTab")
-        .addEventListener("click", () => setAuthMode("login"));
-
-      document
-        .getElementById("registerTab")
-        .addEventListener("click", () => setAuthMode("register"));
-
-      document
-        .getElementById("authForm")
-        .addEventListener("submit", handleAuthSubmit);
-
-      async function initializeApp() {
-        await loadStudyDays();
-        await loadCompletions();
-        await loadProgress();
-        await loadProjects();
-        renderProjects();
-
-        render();
-        console.log("✅ DevTrack initialized");
-      }
-
-      async function startApp() {
-        showLoading("Connecting to DevTrack...");
-
-        try {
-          if (localStorage.getItem("devtrack_token")) {
-            try {
-              await apiRequest("/auth/me");
-
-              document.getElementById("authScreen").classList.add("hidden");
-
-              await initializeApp();
-
-              return;
-            } catch {
-              localStorage.removeItem("devtrack_token");
-            }
-          }
-
-          setAuthMode("login");
-        } finally {
-          hideLoading();
-        }
-      }
-
-      startApp();
-    </script>
-  </body>
+    async function start(){const token=localStorage.getItem('devtrack_token');if(!token){setAuthMode('login');return;}await bootWorkspace();}
+    start();
+  </script>
+</body>
 </html>
