@@ -35,10 +35,13 @@ export async function evaluateAchievements(userId: number) {
      ), groups AS (
        SELECT day, day - (ROW_NUMBER() OVER (ORDER BY day))::int AS grp
        FROM dates
+     ), streaks AS (
+       SELECT grp, COUNT(*)::int AS streak_length
+       FROM groups
+       GROUP BY grp
      )
-     SELECT COALESCE(MAX(COUNT(*)), 0)::int AS longest_streak
-     FROM groups
-     GROUP BY grp`,
+     SELECT COALESCE(MAX(streak_length), 0)::int AS longest_streak
+     FROM streaks`,
     [userId],
   );
 
